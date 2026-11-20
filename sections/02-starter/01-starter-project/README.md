@@ -9,5 +9,3 @@ cd api
 npm install
 npm run start:dev   # http://localhost:3000
 ```
-
-テストは `npm test` です。

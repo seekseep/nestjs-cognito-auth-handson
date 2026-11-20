@@ -12,5 +12,3 @@ npm install
 cp .env.example .env
 npm run start:dev      # http://localhost:3000
 ```
-
-テストは `npm test` です。

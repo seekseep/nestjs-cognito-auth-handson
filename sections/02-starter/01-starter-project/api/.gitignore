@@ -1,7 +1,6 @@
 # 依存とビルドの成果物
 node_modules/
 dist/
-coverage/
 *.tsbuildinfo
 
 # 環境変数。実値は .env に書き、見本の .env.example だけを Git に入れる
