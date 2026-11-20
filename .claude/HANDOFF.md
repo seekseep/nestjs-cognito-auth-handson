@@ -4,8 +4,8 @@
 
 - 2026-11-20: 元のハンズオン（`seekseep/nest-js-and-cognito-handson`）を A・B・C の 3 本に分けることになり、
   B（認証と認可）としてこのリポジトリを作った。サイトの仕組み（`site/`・`tools/`・workflow）は元のリポジトリの main から持ってきた
-- 土台は main に直接 push、教材は章ごとの PR（この下の「PR」）でマージ済み。GitHub Pages は Actions から出している
-- 本物の Cognito での確認（サインイン・200・403・admin）はまだ。AWS の認証情報が無い環境で作ったため。イシューに残している
+- 土台は main に直接 push、教材は章ごとの PR でマージ済み（01 #2、02 #3、03 #4、04 #5、05 #6、06 #7）。GitHub Pages は Actions から出している（https://seekseep.github.io/nestjs-cognito-auth-handson/）
+- 本物の Cognito での確認（サインイン・200・403・admin）はまだ。AWS の認証情報が無い環境で作ったため。イシュー #8 に残している
 
 ## 環境
 
@@ -33,11 +33,12 @@
 ## 確かめ方のメモ
 
 - 各節の `api/` で `npm install` → `npm run build`・`npm run lint`・`npm test`
+- 画面は Playwright（playwright-core ＋ 手元の Chrome）で、Cognito への要求を `page.route` で差し替えて確かめた
 - 本物の Cognito が無い環境では、手元で作った RSA 鍵で Cognito と同じ形のアクセストークンに署名し、
   `TokenVerifier` の中の `verifier.cacheJwks()` に公開鍵を入れて、HTTP 越しに 401・403・200 を確かめた（06-02）
 - ポート 3000 はほかの作業（A のハンズオン）が使っていることがあるので、確かめるときは `PORT` を変える
 
 ## 残っていること
 
-- 本物の Cognito での手元確認（サインイン、`NEW_PASSWORD_REQUIRED` の画面での答え方、200・403・admin・`/admin/notes`）
+- 本物の Cognito での手元確認（#8。サインイン、`NEW_PASSWORD_REQUIRED` の画面での答え方、200・403・admin・`/admin/notes`）
 - A（`nestjs-rest-api-handson`）・C（`nestjs-testing-handson`）が公開されたら、README と 02-01 からリンクする
