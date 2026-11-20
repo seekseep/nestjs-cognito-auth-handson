@@ -56,6 +56,18 @@ API にトークンを検証する Guard を足し、トークンが無い・正
 
 Guard をアプリ全体に掛け、トークン無しで呼んでよいものだけに `@Public()` を付けます。`/admin` の下は middleware で、admin だけが使えるようにします。
 
+## ほかのハンズオンとの関係
+
+NestJS のハンズオンは 3 本に分かれていて、どれから始めても進められます。
+
+| ハンズオン | 内容 |
+|---|---|
+| [基本的な REST API](https://github.com/seekseep/nestjs-rest-api-handson) | NestJS でメモの API を作る |
+| NestJS と Cognito で認証と認可（このハンズオン） | Amazon Cognito のトークンで認証し、持ち主とグループで認可する |
+| [NestJS のテスト](https://github.com/seekseep/nestjs-testing-handson) | 単体テスト・結合テスト・E2E テストを書く |
+
+このハンズオンの「はじめのプロジェクト」は、基本的な REST API のハンズオンで作るものを小さくまとめたものです。メモの API の作り方を詳しく知りたいときは、そちらを見てください。
+
 ## ドキュメントサイト
 
 各節の解説は GitHub Pages で読めます: <https://seekseep.github.io/nestjs-cognito-auth-handson/>
