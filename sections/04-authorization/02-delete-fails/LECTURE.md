@@ -53,7 +53,7 @@ curl -i -X DELETE http://localhost:3000/notes/<alice のノートの id>
 HTTP/1.1 401 Unauthorized
 ```
 
-`curl http://localhost:3000/notes` で、alice のノートが残っていることを確かめます。
+<http://localhost:3000/notes.html> を読み込み直して、alice のノートが残っていることを確かめます。
 
 ## 参考にした公式ドキュメント
 

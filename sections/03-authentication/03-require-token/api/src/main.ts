@@ -5,7 +5,7 @@ import { AppModule } from './app.module.js';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  // public/ の画面（signup.html など）を配る
+  // public/ の画面（notes.html など）を配る
   app.useStaticAssets(join(import.meta.dirname, '..', 'public'));
   await app.listen(process.env.PORT ?? 3000);
 }

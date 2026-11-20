@@ -35,7 +35,7 @@ curl -i -X DELETE http://localhost:3000/notes/<id>
 HTTP/1.1 204 No Content
 ```
 
-`curl http://localhost:3000/notes` が `[]` になっていれば、消えています。
+<http://localhost:3000/notes.html> を読み込み直して、ノートが消えていれば成功です。
 
 ## 参考にした公式ドキュメント
 

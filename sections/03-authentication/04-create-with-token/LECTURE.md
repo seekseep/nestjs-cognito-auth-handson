@@ -36,15 +36,7 @@ curl -X POST http://localhost:3000/notes -H "content-type: application/json" -H 
 {"id":"a9f36853-986b-4c8c-9eab-17439afca9fc","text":"buy milk"}
 ```
 
-一覧は、トークン無しで見られます。
-
-```bash
-curl http://localhost:3000/notes
-```
-
-```json
-[{"id":"a9f36853-986b-4c8c-9eab-17439afca9fc","text":"buy milk"}]
-```
+<http://localhost:3000/notes.html> を読み込み直すと、作ったノートが並んでいます。一覧はトークン無しで見られます。
 
 でたらめなトークンを付けると、`401` になります。
 

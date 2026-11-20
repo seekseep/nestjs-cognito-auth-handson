@@ -45,7 +45,7 @@ podman compose up -d --build --wait
 |---|---|
 | トークン無しで `POST /notes` | `401` |
 | alice のトークンで `POST /notes` | `201`（ノートができる） |
-| トークン無しで `GET /notes` | `200`（一覧が見られる） |
+| `notes.html` を開く（トークン無しで `GET /notes`） | 一覧が見られる |
 | bob のトークンで、alice のノートを `DELETE` | `403` |
 | alice のトークンで、alice のノートを `DELETE` | `204` |
 

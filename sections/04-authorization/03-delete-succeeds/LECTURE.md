@@ -32,13 +32,7 @@ curl -i -X DELETE http://localhost:3000/notes/<alice のノートの id> -H "Aut
 HTTP/1.1 204 No Content
 ```
 
-```bash
-curl http://localhost:3000/notes
-```
-
-```json
-[]
-```
+<http://localhost:3000/notes.html> を読み込み直して、ノートが消えていれば成功です。
 
 ## 参考にした公式ドキュメント
 

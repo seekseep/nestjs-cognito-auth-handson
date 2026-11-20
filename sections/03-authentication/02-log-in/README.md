@@ -12,3 +12,5 @@ podman compose up -d --wait      # http://localhost:3000
 ```
 
 サインアップは http://localhost:3000/signup.html 、確認コードは http://localhost:4566/_aws/ses 、ログインは http://localhost:3000/login.html です。
+
+ノートの一覧の画面は http://localhost:3000/notes.html です。

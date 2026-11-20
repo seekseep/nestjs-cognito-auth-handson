@@ -43,11 +43,7 @@ Cognito の API を呼んで、ユーザープールとアプリケーション�
 
 ## サインアップ画面を作る
 
-画面は NestJS から配ります。`public/` の中のファイルを配るようにします。
-
-::diff{file="api/src/main.ts"}
-
-画面はクライアント ID を知る必要があるので、`GET /config` で渡します。
+画面は、ノートの一覧の画面と同じく `public/` に置きます。画面はクライアント ID を知る必要があるので、`GET /config` で渡します。
 
 ::diff{file="api/src/app.controller.ts"}
 
@@ -92,7 +88,6 @@ Floci はデータをメモリに持つので、`podman compose down` やパソ�
 - [Amazon Cognito API: SignUp](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_SignUp.html) … サインアップ
 - [Amazon Cognito API: ConfirmSignUp](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_ConfirmSignUp.html) … 確認コードでの確定
 - [Amazon Cognito: Application-specific settings with app clients](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html) … クライアントシークレットを使わないアプリケーションクライアント
-- [NestJS: Model-View-Controller](https://docs.nestjs.com/http/mvc) … `useStaticAssets()` で `public/` を配る
 - [Docker: Compose file reference](https://docs.docker.com/reference/compose-file/services/) … `env_file` と `healthcheck`
 
 ## この節を終えたときのディレクトリ
