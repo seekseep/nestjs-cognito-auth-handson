@@ -2,8 +2,9 @@
 
 ## プロジェクト概要
 
-NestJS のメモの REST API に、Amazon Cognito のサインインと、認証（トークンの検証）・認可（持ち主と admin グループ）を
-足していくハンズオン教材。もとは 1 本の大きなハンズオン（Next.js + NestJS + Cognito + Podman）を 3 本に分けたうちの B。
+NestJS で、ノートの作成・一覧・削除だけの小さな API を作り、Amazon Cognito のトークンで認証（作成はログインした人だけ）と
+認可（削除は作った人だけ）を足していくハンズオン教材。一覧は誰でも見られる。
+もとは 1 本の大きなハンズオン（Next.js + NestJS + Cognito + Podman）を 3 本に分けたうちの B。
 
 | | ハンズオン | リポジトリ |
 |---|---|---|
@@ -11,12 +12,12 @@ NestJS のメモの REST API に、Amazon Cognito のサインインと、認証
 | **B** | **認証と認可（このリポジトリ）** | `seekseep/nestjs-cognito-auth-handson` |
 | C | テスト | `seekseep/nestjs-testing-handson` |
 
-**どれから始めても進められる** ことが大事な条件。B は A を終えていなくても始められるように、02 章で「はじめのプロジェクト」
-（メモの REST API と HTML 1 枚）を ZIP で配り、中身を短く説明する。
+**どれから始めても進められる** ことが大事な条件。B は 02 章で `nest new` から API を作るので、A を終えていなくても始められる。
 
-**最小限の構成** にする。Next.js・Amplify・OpenAPI は使わない。Cognito は本物の AWS ではなく、エミュレーター
-**Floci**（`docker.io/floci/floci`、ポート 4566）を Podman（`podman compose`）で手元に動かす。Podman で動かすのは Floci だけで、
-NestJS は手元の Node.js で動かす。
+**最小限の構成** にする。コードは読んで分かる量にとどめる（単一取得・更新・入力チェック・グループ・Guard は作らない）。
+Next.js・Amplify・OpenAPI は使わない。API と、Cognito のエミュレーター **Floci**（`docker.io/floci/floci:2.4.0`、ポート 4566）を
+Podman（`podman compose`、プロバイダは docker-compose）で一緒に動かす。Node.js は `nest new` と、02-01 の手元での起動と、
+`scripts/setup-cognito.mjs` に使う。
 
 handson-builder スキルの骨格（`sections/` ＋ Starlight の `site/` ＋ GitHub Pages）を使っている。
 全体の計画と方針の正本は GitHub のイシュー #1。
@@ -25,15 +26,15 @@ handson-builder スキルの骨格（`sections/` ＋ Starlight の `site/` ＋ G
 
 | 用語 | 指すもの | 例 |
 |---|---|---|
-| **章** | `sections/<NN-section>/`。章立ては固定（イシュー #1） | `04-authentication/` |
-| **節** | `sections/<NN-section>/<NN-lecture>/`。増減してよい | `04-authentication/01-auth-guard/` |
+| **章** | `sections/<NN-section>/`。章立ては固定（イシュー #1） | `03-authentication/` |
+| **節** | `sections/<NN-section>/<NN-lecture>/`。増減してよい | `03-authentication/03-require-token/` |
 
 - 節のディレクトリは **その節を終えた時点のプロジェクト** を丸ごと持つ（`api/`）
 - 次の節は、前の節のディレクトリをコピーして差分を足して作る（`tools/copy-lecture.sh <前の節> <次の節>`）
 - 本文は `LECTURE.md`（`docs: true`）。節の直下の `README.md` は ZIP を展開した人向けの起動方法
 - 説明図は `images/` に SVG で置く（`00-thumbnail.svg` を先頭サムネに。`tools/thumbnail.mjs` の THUMBNAILS に足して `node tools/thumbnail.mjs`）
-- 章の直下には README を置かない
-- 準備の節のように、プロジェクトを持たない節もある（本文だけ）
+- 章の直下には README を置かない。章のラベルは `site/astro.config.mjs` の sidebar に書く
+- 準備の節や、コードを変えずに curl で確かめるだけの節（03-04・04-02・04-03）は、プロジェクトを持たない（本文だけ）
 
 ## プロジェクトの形
 
@@ -42,29 +43,33 @@ sections/<sec>/<lec>/
 ├── README.md         起動方法（ZIP に入る。::tree には出さない）
 ├── LECTURE.md        教材本文（ZIP に入らない）
 ├── images/           説明図（ZIP に入らない）
-└── api/              NestJS（nest new api --package-manager npm --skip-git から作った）
-    ├── public/index.html   画面。main.ts の app.useStaticAssets() で配る
+└── api/              NestJS（npx @nestjs/cli@12 new api --package-manager npm --skip-git から作った）
+    ├── Dockerfile・.dockerignore・compose.yaml   02-02 から（03-01 で floci のサービスを足す）
+    ├── scripts/setup-cognito.mjs                 03-01 から（ユーザープールとクライアントを作り、.env に書く）
+    ├── public/                                   03-01 から（cognito.js・signup.html、03-02 で login.html）
     └── src/
-        ├── notes/          メモの API（dto/create-note.dto.ts・dto/update-note.dto.ts・entities/note.entity.ts）
-        ├── auth/           03 章から（/auth/config、Guard、@CurrentUser()、@Public() など）
-        └── admin/          06-02 から（/admin の middleware）
+        ├── app.controller.ts・app.service.ts     nest new のまま（03-01 で GET /config を足す）
+        ├── notes/                                notes.controller.ts・notes.service.ts（AppModule に直接登録）
+        └── auth/                                 03-03 から verify-token.ts、05-01 で auth.middleware.ts
 ```
 
-- 言語は **TypeScript**。NestJS 12（ESM。import の末尾は `.js`）
-- パッケージマネージャはレクチャー側が **npm**（`api/package-lock.json`）、サイトが pnpm
-- ポートは **3000**。画面（`public/index.html`）と API を同じ NestJS から配るので、CORS は要らない
-- プロジェクトは **ビルドして動かすのに要るものだけ** にする（`src/`・`public/`・`package.json`・`package-lock.json`・
-  `tsconfig.json`・`tsconfig.build.json`・`nest-cli.json`・`.gitignore`。03-01 からは `compose.yaml`・`scripts/setup-cognito.mjs`）。`nest new` が作るテスト
-  （`test/`・`*.spec.ts`・Vitest。テストは C の範囲）、lint・format（oxlint・Prettier）、`AGENTS.md`・`README.md`・
-  `.gitattributes`、`AppController`・`AppService`（`GET /` が index.html とぶつかる）は消している。
-  `package.json` のスクリプトは `build`・`start`・`start:dev`（03-01 から `floci:up`・`floci:down`・`cognito:setup`）だけ
-- 入力チェックは Zod ＋ NestJS 12 の `StandardSchemaValidationPipe`（`@Body({ schema })`）。`:id` は `ParseUUIDPipe`
-- `.env` は gitignore。`npm run cognito:setup`（`scripts/setup-cognito.mjs`）が Floci にユーザープール・クライアント・
-  ユーザー（alice は admin、bob。パスワード `Passw0rd!`）・`admin` グループを作り、`COGNITO_ENDPOINT`・`COGNITO_USER_POOL_ID`・
-  `COGNITO_USER_POOL_CLIENT_ID` を `.env` に書く。起動は Nest CLI の `--env-file .env`（`package.json` の `start`・`start:dev`）
+- 言語は **TypeScript**。NestJS 12（ESM。import の末尾は `.js`）。パッケージマネージャはレクチャー側が **npm**、サイトが pnpm
+- ポートは **3000**（API）と **4566**（Floci）。画面は NestJS が `public/` を `useStaticAssets()` で配る。画面から Floci を
+  直接呼ぶので、Floci の `FLOCI_SECURITY_EXTRA_CORS_ALLOWED_ORIGINS` で `http://localhost:3000` を許している
+- プロジェクトは **ビルドして動かすのに要るものだけ**。`nest new` が作るテスト（`test/`・`*.spec.ts`・Vitest。テストは C の範囲）、
+  lint・format（oxlint・Prettier）、`AGENTS.md`・`README.md`・`.gitattributes` は 02-01 で消す（`npm uninstall`・`npm pkg delete`、
+  `tsconfig.json` の `types` から `vitest/globals` を消す）。`package.json` のスクリプトは `build`・`start`・`start:dev` だけ
+- ノートは `{ id, text }`（04-01 から `ownerId`）。メモリ上の配列。入力チェックはしない
+- API はコンテナで `node dist/main.js`。コードを変えたら `podman compose up -d --build --wait`
+- `.env` は Git にもイメージにも入れない。`node scripts/setup-cognito.mjs` が `COGNITO_USER_POOL_ID`・`COGNITO_CLIENT_ID` を書き、
+  compose の `env_file`（`required: false`）で API に渡す。書いたあと `podman compose up -d --wait` で API を作り直す
+- ユーザーは画面でサインアップする（`SignUp` → `ConfirmSignUp`）。ユーザープールは `AutoVerifiedAttributes: ['email']` で、
+  確認コードは Floci の SES の受信箱 `http://localhost:4566/_aws/ses` で読む
+- Floci は `FLOCI_BASE_URL=http://floci:4566` にして、トークンの `iss` を API のコンテナから届く `http://floci:4566/<プール ID>` にしている
 - トークンの検証は aws-jwt-verify の `JwtVerifier`（`CognitoJwtVerifier` は発行元が amazonaws.com に固定なので使えない）。
-  `issuer` は `${COGNITO_ENDPOINT}/${プール ID}`、`jwksUri` はその下の `/.well-known/jwks.json`、`token_use`・`client_id` は
-  `customJwtCheck` で確かめる。aws-jwt-verify の既定の取得は https だけなので、`SimpleJwksCache` に `fetch` の fetcher を渡す
+  `jwksUri` は `iss` の下の `/.well-known/jwks.json`、`token_use`・`client_id` は `customJwtCheck`。既定の JWKS の取得は https だけなので、
+  `SimpleJwksCache` に `fetch` の fetcher を渡す
+- API の確かめは curl（ログイン画面に出したアクセストークンを `TOKEN` に入れて付ける）。画面はサインアップとログインだけ
 - **秘匿情報（ユーザープール ID・クライアント ID・AWS アカウント ID・キー）の実値は絶対にコミットしない**
 
 ## 本文の分量

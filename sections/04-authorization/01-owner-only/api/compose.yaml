@@ -1,0 +1,27 @@
+services:
+  api:
+    # このフォルダの Dockerfile からイメージを作る
+    build: .
+    ports:
+      - "127.0.0.1:3000:3000"
+    # scripts/setup-cognito.mjs が書いた、ユーザープール ID とクライアント ID
+    env_file:
+      - path: .env
+        required: false
+
+  # Cognito のエミュレーター
+  floci:
+    image: docker.io/floci/floci:2.4.0
+    ports:
+      - "127.0.0.1:4566:4566"
+    environment:
+      # トークンの発行元（iss）を、API のコンテナから届く http://floci:4566 にする
+      FLOCI_BASE_URL: http://floci:4566
+      # 画面（http://localhost:3000）から Cognito の API を呼べるようにする
+      FLOCI_SECURITY_EXTRA_CORS_ALLOWED_ORIGINS: http://localhost:3000
+    healthcheck:
+      # 起動が終わったか（/_floci/health が 200 を返すか）を確かめる
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/4566 && printf 'GET /_floci/health HTTP/1.0\\r\\n\\r\\n' >&3 && read -r status <&3 && [[ $$status == *' 200 '* ]]"]
+      interval: 3s
+      timeout: 3s
+      retries: 20

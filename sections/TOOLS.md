@@ -1,22 +1,26 @@
 ---
 docs: true
-title: 開発ツール（VS Code / ブラウザ）
+title: 開発ツール（ブラウザ / コンテナ）
 sidebar:
   label: 開発ツール
   order: 3
 ---
 
-# 開発ツール（VS Code / ブラウザ）
-
-## VS Code
-
-`api/` のフォルダを **ファイル → フォルダーを開く** で開きます。
-
-`` Ctrl + ` ``（バッククォート）でエディタの中にターミナルが開きます。API を動かしたまま curl を打つときは、右上の **＋** でターミナルをもう 1 つ開きます。
+# 開発ツール（ブラウザ / コンテナ）
 
 ## ブラウザの開発者ツール
 
-Chrome / Edge / Firefox のどれでも、`F12` で開けます。
+サインアップ画面やログイン画面がうまく動かないときは、`F12` で開発者ツールを開きます。
 
-- **Network タブ** — API と Cognito へのリクエストとレスポンス、ステータスコード、`Authorization` ヘッダーを確かめる
-- **Console タブ** — エラーを確かめる
+- **Network タブ** — Cognito（`localhost:4566`）へのリクエストと、返ってきたエラー（`__type` と `message`）を確かめる
+- **Console タブ** — 画面のエラーを確かめる
+
+## コンテナのようす
+
+`api/` で実行します。
+
+```bash
+podman compose ps            # 動いているコンテナ
+podman compose logs api      # API のログ（エラーの中身）
+podman compose logs floci    # Floci のログ
+```

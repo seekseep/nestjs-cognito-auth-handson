@@ -156,11 +156,10 @@ export default defineConfig({
         // 章を足したらここに足す（章は固定。節は autogenerate が拾う）。
         // Starlight v0.39+ では autogenerate を items 配列に入れる（label と autogenerate を同階層に書けない）。
         { label: '01. 準備', items: [{ autogenerate: { directory: '01-setup' } }] },
-        { label: '02. はじめのプロジェクト', items: [{ autogenerate: { directory: '02-starter' } }] },
-        { label: '03. Cognito でサインイン', items: [{ autogenerate: { directory: '03-cognito' } }] },
-        { label: '04. 認証', items: [{ autogenerate: { directory: '04-authentication' } }] },
-        { label: '05. 認可', items: [{ autogenerate: { directory: '05-authorization' } }] },
-        { label: '06. アプリ全体に掛ける', items: [{ autogenerate: { directory: '06-app-wide' } }] },
+        { label: '02. エンドポイントを作る', items: [{ autogenerate: { directory: '02-endpoint' } }] },
+        { label: '03. 認証する', items: [{ autogenerate: { directory: '03-authentication' } }] },
+        { label: '04. 認可する', items: [{ autogenerate: { directory: '04-authorization' } }] },
+        { label: '05. 整理する', items: [{ autogenerate: { directory: '05-refactor' } }] },
       ],
       editLink: {
         baseUrl: `${repoUrl}/edit/main/`,

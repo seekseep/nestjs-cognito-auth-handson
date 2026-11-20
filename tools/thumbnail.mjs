@@ -42,14 +42,20 @@ const TOOL_COLORS = {
 };
 
 const THUMBNAILS = [
-  ['01-setup/01-tools', '01', '道具をそろえる', ['Node.js', 'VS Code', 'AWS']],
-  ['02-starter/01-starter-project', '02', 'はじめのプロジェクト', ['NestJS', 'HTML']],
-  ['03-cognito/01-user-pool', '03', 'ユーザープールを作る', ['Cognito']],
-  ['03-cognito/02-sign-in', '03', 'HTML からサインインする', ['HTML', 'Cognito', 'JWT']],
-  ['04-authentication/01-auth-guard', '04', '認証 — トークンを検証する', ['NestJS', 'JWT', 'Guard']],
-  ['05-authorization/01-owner-and-admin', '05', '認可 — 持ち主とグループ', ['NestJS', 'Cognito', 'Guard']],
-  ['06-app-wide/01-app-guard', '06', 'アプリ全体に Guard を掛ける', ['NestJS', 'Guard']],
-  ['06-app-wide/02-admin-middleware', '06', '/admin を middleware で守る', ['NestJS', 'Middleware']],
+  ['01-setup/01-tools', '01', '道具をそろえる', ['Node.js', 'Podman']],
+  ['02-endpoint/01-hello-world', '02', 'Node.js だけで Hello World', ['NestJS']],
+  ['02-endpoint/02-podman', '02', 'Podman で動かす', ['Podman', 'compose']],
+  ['02-endpoint/03-create-note', '02', 'ノートの作成', ['NestJS', 'POST']],
+  ['02-endpoint/04-list-notes', '02', 'ノートの一覧', ['NestJS', 'GET']],
+  ['02-endpoint/05-delete-note', '02', 'ノートの削除', ['NestJS', 'DELETE']],
+  ['03-authentication/01-sign-up', '03', 'サインアップ画面を作る', ['Cognito', 'Floci', 'HTML']],
+  ['03-authentication/02-log-in', '03', 'ログイン画面を作る', ['Cognito', 'JWT', 'HTML']],
+  ['03-authentication/03-require-token', '03', 'JWT トークンが無いと作成できないようにする', ['NestJS', 'JWT']],
+  ['03-authentication/04-create-with-token', '03', 'JWT トークンを付けて作成する', ['JWT', 'curl']],
+  ['04-authorization/01-owner-only', '04', '認可されたものしか削除できないようにする', ['NestJS', 'JWT']],
+  ['04-authorization/02-delete-fails', '04', '削除に失敗する', ['403', 'curl']],
+  ['04-authorization/03-delete-succeeds', '04', 'JWT トークンを付けて削除して成功', ['204', 'curl']],
+  ['05-refactor/01-auth-middleware', '05', '認証部分をミドルウェアにする', ['NestJS', 'Middleware']],
 ];
 
 function escapeXml(s) {
