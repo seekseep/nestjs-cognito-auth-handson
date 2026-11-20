@@ -1,0 +1,7 @@
+# 依存とビルドの成果物
+node_modules/
+dist/
+*.tsbuildinfo
+
+# 環境変数（Git に入れない）
+.env

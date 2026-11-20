@@ -103,6 +103,18 @@ curl -s -o NUL -w "%{http_code}\n" http://localhost:3000/admin
 
 Guard はメソッド・コントローラー単位で決め、`@Public()` のようなメタデータを読めます。middleware はパス単位で決め、メタデータは読めません。ふだんの認証は Guard、`/admin` の下のように「パスでまとめて決めたい」ものは middleware、と使い分けます。
 
+## 本物の Cognito で動かすには
+
+コードは変えずに、`api/.env` の 3 つの値を変えます。発行元（`iss`）と公開鍵の場所は、どちらも `COGNITO_ENDPOINT` とユーザープール ID から決まるので、Floci でも本物でも同じ書き方で確かめられます。
+
+```ini
+COGNITO_ENDPOINT=https://cognito-idp.ap-northeast-1.amazonaws.com
+COGNITO_USER_POOL_ID=<本物のユーザープール ID>
+COGNITO_USER_POOL_CLIENT_ID=<本物のクライアント ID>
+```
+
+ユーザープールは、`scripts/setup-cognito.mjs` と同じ設定（クライアントシークレットなし・`ALLOW_USER_PASSWORD_AUTH`・`admin` グループ）で作ります。
+
 ## 参考にした公式ドキュメント
 
 この節は、次の公式ドキュメントをもとに書いています。
@@ -110,6 +122,7 @@ Guard はメソッド・コントローラー単位で決め、`@Public()` の�
 - [NestJS: Middleware](https://docs.nestjs.com/middleware) … middleware の書き方と `forRoutes()`、`{/*splat}` の書き方
 - [NestJS: Request lifecycle](https://docs.nestjs.com/faq/request-lifecycle) … middleware・Guard・Pipe が動く順番
 - [NestJS: Modules](https://docs.nestjs.com/modules) … `exports` で、ほかのモジュールにプロバイダーを公開する
+- [Amazon Cognito: Verifying JSON web tokens](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-verifying-a-jwt.html) … 本物の Cognito の発行元（`https://cognito-idp.<リージョン>.amazonaws.com/<ユーザープール ID>`）と JWKS の場所
 
 ## この節を終えたときのディレクトリ
 
@@ -117,12 +130,4 @@ Guard はメソッド・コントローラー単位で決め、`@Public()` の�
 
 :::download
 [この節を終えた状態をダウンロード](./project.zip)
-:::
-
-:::faq
-
-### `forRoutes('admin')` と書いてもいい？
-
-Express では `/admin/notes` のような下のパスにも掛かりますが、Fastify では `/admin` ちょうどにしか掛かりません。NestJS のドキュメントでは、どちらでも同じに動く `'admin{/*splat}'` を勧めています。
-
 :::

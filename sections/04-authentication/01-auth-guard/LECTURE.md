@@ -50,9 +50,12 @@ NestJS で「このリクエストを通すかどうか」を決める部品を 
 
 ::diff{file="api/src/auth/auth.guard.ts"}
 
-- `CognitoJwtVerifier.create(...)` … ユーザープール ID・`tokenUse: 'access'`・クライアント ID を渡すと、それに合うトークンだけを正しいとする検証器ができます。ID トークンや、別のアプリケーションクライアントのトークンは通りません
+- `issuer` … 発行元です。Floci では `http://localhost:4566/<ユーザープール ID>` になります。ほかのユーザープールが発行したトークンは通りません
+- `jwksUri` … 署名を確かめる公開鍵の場所です。発行元の下の `/.well-known/jwks.json` にあります
+- `customJwtCheck` … アクセストークンであること（`token_use`）と、自分のアプリケーションクライアント向けであること（`client_id`）を確かめます。ID トークンや、別のクライアントのトークンは通りません
+- `jwksCache` … aws-jwt-verify は https でしか公開鍵を取りに行かないので、http の Floci からも取れるように、`fetch` で取る形に差し替えます
 - `requireEnv` … 環境変数が無ければ、起動するときにエラーで止めます
-- `this.verifier.verify(token)` … 署名・発行元・期限・`token_use`・`client_id` を確かめ、正しければペイロードを返します。正しくなければ例外を投げるので、`UnauthorizedException`（`401`）にします
+- `this.verifier.verify(token)` … 署名・発行元・期限と、上の確認をして、正しければペイロードを返します。正しくなければ例外を投げるので、`UnauthorizedException`（`401`）にします
 - `request.user = ...` … 確かめたペイロードをリクエストに入れておきます。05 章で「誰からの呼び出しか」を知るのに使います
 
 ## Guard を掛ける
