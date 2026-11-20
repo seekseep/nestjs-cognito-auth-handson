@@ -1,0 +1,24 @@
+node_modules/
+.DS_Store
+
+# 環境変数。実値は各自が api/.env に書く。テンプレの .env.example だけ追跡する。
+.env
+.env.*
+!.env.example
+
+# NestJS のビルド成果物
+dist/
+*.tsbuildinfo
+coverage/
+
+# secrets
+*.pem
+*.key
+
+# Astro / site
+site/dist/
+site/.astro/
+site/src/content/docs/
+
+# 生成物: 各レクチャーのプロジェクト ZIP（build-downloads.mjs）
+site/public/downloads/
