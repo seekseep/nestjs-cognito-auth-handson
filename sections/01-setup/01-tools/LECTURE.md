@@ -7,7 +7,7 @@ title: 道具をそろえる
 
 ![01 章 道具をそろえる](./images/00-thumbnail.svg)
 
-このハンズオンで使うのは、**Node.js 26**・**VS Code**・**Podman** の 3 つです。Amazon Cognito は、エミュレーターの **Floci** を Podman で手元に動かして使うので、AWS のアカウントは要りません。
+このハンズオンで使うのは、**Node.js 26** と **Podman** です。API と、Amazon Cognito のエミュレーター **Floci** を Podman のコンテナで動かすので、AWS のアカウントは要りません。エディタは使い慣れたもので進めてください。
 
 ## お使いの OS を選ぶ
 
@@ -71,13 +71,9 @@ v26.13.1
 
 `v26.` から始まっていれば大丈夫です（細かい番号は入れた日によって違います）。npm は Node.js といっしょに入るパッケージマネージャーです。
 
-## VS Code を入れる
-
-エディタには [Visual Studio Code](https://code.visualstudio.com/) を使います。公式サイトからインストーラーをダウンロードして入れます。使い方は [開発ツール](../../TOOLS.md) にまとめています。
-
 ## Podman を入れる
 
-Podman は、コンテナを動かす道具です。03 章から、Cognito のエミュレーター Floci をコンテナで動かします。あわせて、`podman compose` が使う **docker-compose** も入れます。
+Podman は、コンテナを動かす道具です。02 章で API を、03 章から Cognito のエミュレーター Floci も、コンテナで動かします。あわせて、`podman compose` が使う **docker-compose** も入れます。
 
 :::::platform
 ::::macos
@@ -138,6 +134,5 @@ Docker Compose version 5.8.0
 
 - [Node.js: ダウンロード](https://nodejs.org/ja/download) … Node.js の入れ方
 - [Microsoft Learn: Windows への PowerShell のインストール](https://learn.microsoft.com/ja-jp/powershell/scripting/install/installing-powershell-on-windows) … winget で PowerShell 7 を入れる方法
-- [Visual Studio Code: Setup Overview](https://code.visualstudio.com/docs/setup/setup-overview) … VS Code の入れ方
 - [Podman: Installation](https://podman.io/docs/installation) … OS ごとの Podman の入れ方と `podman machine`
 - [Podman: podman-compose](https://docs.podman.io/en/latest/markdown/podman-compose.1.html) … `podman compose` が docker-compose に処理を渡すこと

@@ -5,35 +5,34 @@ title: NestJS と Amazon Cognito で認証と認可
 
 # NestJS と Amazon Cognito で認証と認可
 
-NestJS で作ったメモの REST API に、**Amazon Cognito でのサインイン** と、**認証**（誰からの呼び出しかを確かめる）・**認可**（その人にその操作をさせてよいかを確かめる）を足していくハンズオンです。
+NestJS で、ノートの作成・一覧・削除だけの小さな API を作り、**Amazon Cognito** のトークンで **認証**（誰からの呼び出しかを確かめる）と **認可**（その人にその操作をさせてよいかを確かめる）を足していくハンズオンです。
 
-- **API** — NestJS。メモの一覧・作成・更新・削除ができる REST API
-- **画面** — HTML 1 枚。NestJS が API といっしょに配ります。`fetch` で API と Cognito を呼びます
-- **認証の仕組み** — Amazon Cognito のユーザープール。Cognito のエミュレーター [Floci](https://floci.io/) を Podman で手元に動かすので、AWS のアカウントは要りません。API は Cognito が発行したアクセストークンを検証します
-
-メモの REST API ができあがった状態から始めます。そのプロジェクトは 02 章で ZIP で配ります。
+- **API** — NestJS。ノートの作成（ログインした人だけ）・一覧（誰でも）・削除（作った人だけ）
+- **画面** — サインアップとログインの HTML。`fetch` で Cognito を直接呼びます
+- **Cognito** — エミュレーターの [Floci](https://floci.io/) を使います。API と Floci を Podman で手元に動かすので、AWS のアカウントは要りません
 
 ## このハンズオンで作るもの
 
 ```text
-ブラウザ（index.html）
-  ├─ サインイン ──────────▶ Cognito（Floci: http://localhost:4566）
+ブラウザ（signup.html・login.html）
+  ├─ サインアップ・ログイン ──▶ Cognito（Floci: http://localhost:4566）
   │   ◀── アクセストークン ──┘
+curl
   └─ Authorization: Bearer <アクセストークン> を付けて呼ぶ
                               ▼
                      NestJS（http://localhost:3000）
-                       トークンを検証し（認証）、
-                       持ち主か admin かを確かめる（認可）
+                       POST /notes        … トークンが無ければ 401
+                       GET /notes         … 誰でも
+                       DELETE /notes/:id  … 作った人でなければ 403
 ```
 
 | 章 | すること |
 |---|---|
-| 01. 準備 | Node.js 26・VS Code・Podman を用意する |
-| 02. はじめのプロジェクト | メモの REST API と HTML 1 枚のプロジェクトを受け取って動かす |
-| 03. Cognito でサインイン | Floci を起動してユーザープールを作り、HTML からサインインしてアクセストークンを付けて API を呼ぶ |
-| 04. 認証 | トークンを検証する Guard を足し、トークンが無い・正しくない呼び出しを `401` で断る |
-| 05. 認可 | 他の人のメモを `403` にし、`admin` グループの人は全員のメモを扱えるようにする |
-| 06. アプリ全体に掛ける | Guard をアプリ全体に掛けて `@Public()` で開け、`/admin` の下を middleware で守る |
+| 01. 準備 | Node.js と Podman を用意する |
+| 02. エンドポイントを作る | Hello World を Node.js で、次に Podman で動かし、ノートの作成・一覧・削除を作る |
+| 03. 認証する | サインアップ画面・ログイン画面を作り、トークンが無いとノートを作れないようにする |
+| 04. 認可する | ノートを作った人だけが消せるようにし、別の人では 403、作った人では成功することを確かめる |
+| 05. 整理する | トークンの確認を middleware にまとめる |
 
 ## ほかのハンズオンとの関係
 
@@ -42,7 +41,7 @@ NestJS のハンズオンは 3 本に分かれていて、どれから始めて�
 | ハンズオン | 内容 |
 |---|---|
 | [基本的な REST API](https://github.com/seekseep/nestjs-rest-api-handson) | NestJS でメモの API を作る |
-| NestJS と Cognito で認証と認可（このハンズオン） | Amazon Cognito のトークンで認証し、持ち主とグループで認可する |
+| NestJS と Cognito で認証と認可（このハンズオン） | ノートの API に、Amazon Cognito のトークンでの認証と、作った人だけが消せる認可を足す |
 | [NestJS のテスト](https://github.com/seekseep/nestjs-testing-handson) | 単体テスト・結合テスト・E2E テストを書く |
 
 ## ドキュメントサイト
