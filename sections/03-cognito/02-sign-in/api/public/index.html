@@ -141,16 +141,15 @@
 
     // ---- Cognito の API を直接呼ぶ ----
 
-    // ユーザープール ID とクライアント ID は、API の /auth/config から受け取る（api/.env の値）
+    // Cognito の API の入口（Floci なら http://localhost:4566）とクライアント ID は、
+    // API の /auth/config から受け取る（api/.env の値）
     const config = await (await fetch('/auth/config')).json();
-    // Cognito の API の入口。リージョンはユーザープール ID の「_」より前（ap-northeast-1 など）
-    const cognitoEndpoint = `https://cognito-idp.${config.userPoolId?.split('_')[0]}.amazonaws.com/`;
 
     // Cognito の API を 1 つ呼ぶ。流れが見えるように、AWS SDK も Amplify も使わずに fetch で書く。
     // InitiateAuth などは、AWS の認証情報（署名）なしで、クライアント ID だけで呼べる
     async function cognito(action, params) {
-      if (!config.userPoolId || !config.clientId) throw new Error('api/.env にユーザープール ID とクライアント ID を書いて、API を起動し直してください');
-      const response = await fetch(cognitoEndpoint, {
+      if (!config.endpoint) throw new Error('npm run cognito:setup で api/.env を作って、API を起動し直してください');
+      const response = await fetch(config.endpoint, {
         method: 'POST',
         headers: {
           'content-type': 'application/x-amz-json-1.1',
@@ -169,21 +168,10 @@
       const form = event.target;
       const { email, password } = Object.fromEntries(new FormData(form));
       try {
-        let result = await cognito('InitiateAuth', {
+        const result = await cognito('InitiateAuth', {
           AuthFlow: 'USER_PASSWORD_AUTH',
           AuthParameters: { USERNAME: email, PASSWORD: password },
         });
-        // コンソールで作ったユーザーは、最初のサインインで新しいパスワードを決める（チャレンジ）
-        if (result.ChallengeName === 'NEW_PASSWORD_REQUIRED') {
-          const newPassword = prompt('新しいパスワードを決めてください');
-          if (!newPassword) return;
-          result = await cognito('RespondToAuthChallenge', {
-            ChallengeName: 'NEW_PASSWORD_REQUIRED',
-            Session: result.Session,
-            ChallengeResponses: { USERNAME: email, NEW_PASSWORD: newPassword },
-          });
-        }
-        if (!result.AuthenticationResult) throw new Error(`${result.ChallengeName} には対応していません`);
         form.reset();
         message.textContent = '';
         saveSession({ email, accessToken: result.AuthenticationResult.AccessToken });

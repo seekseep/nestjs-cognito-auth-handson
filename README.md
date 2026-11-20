@@ -9,7 +9,7 @@ NestJS で作ったメモの REST API に、**Amazon Cognito でのサインイ�
 
 - **API** — NestJS。メモの一覧・作成・更新・削除ができる REST API
 - **画面** — HTML 1 枚。NestJS が API といっしょに配ります。`fetch` で API と Cognito を呼びます
-- **認証の仕組み** — Amazon Cognito のユーザープール。API は Cognito が発行したアクセストークンを検証します
+- **認証の仕組み** — Amazon Cognito のユーザープール。Cognito のエミュレーター [Floci](https://floci.io/) を Podman で手元に動かすので、AWS のアカウントは要りません。API は Cognito が発行したアクセストークンを検証します
 
 メモの REST API ができあがった状態から始めます。そのプロジェクトは 02 章で ZIP で配ります。
 
@@ -17,7 +17,7 @@ NestJS で作ったメモの REST API に、**Amazon Cognito でのサインイ�
 
 ```text
 ブラウザ（index.html）
-  ├─ サインイン ──────────▶ Amazon Cognito（ユーザープール）
+  ├─ サインイン ──────────▶ Cognito（Floci: http://localhost:4566）
   │   ◀── アクセストークン ──┘
   └─ Authorization: Bearer <アクセストークン> を付けて呼ぶ
                               ▼
@@ -28,9 +28,9 @@ NestJS で作ったメモの REST API に、**Amazon Cognito でのサインイ�
 
 | 章 | すること |
 |---|---|
-| 01. 準備 | Node.js 26・VS Code・AWS アカウントを用意する |
+| 01. 準備 | Node.js 26・VS Code・Podman を用意する |
 | 02. はじめのプロジェクト | メモの REST API と HTML 1 枚のプロジェクトを受け取って動かす |
-| 03. Cognito でサインイン | ユーザープールを作り、HTML からサインインしてアクセストークンを付けて API を呼ぶ |
+| 03. Cognito でサインイン | Floci を起動してユーザープールを作り、HTML からサインインしてアクセストークンを付けて API を呼ぶ |
 | 04. 認証 | トークンを検証する Guard を足し、トークンが無い・正しくない呼び出しを `401` で断る |
 | 05. 認可 | 他の人のメモを `403` にし、`admin` グループの人は全員のメモを扱えるようにする |
 | 06. アプリ全体に掛ける | Guard をアプリ全体に掛けて `@Public()` で開け、`/admin` の下を middleware で守る |
@@ -49,4 +49,3 @@ NestJS のハンズオンは 3 本に分かれていて、どれから始めて�
 
 各節の解説は GitHub Pages で読めます: <https://seekseep.github.io/nestjs-cognito-auth-handson/>
 
-Cognito のユーザープール ID などの実値はリポジトリに含めていません。各自で作り、`api/.env` に書いてください。

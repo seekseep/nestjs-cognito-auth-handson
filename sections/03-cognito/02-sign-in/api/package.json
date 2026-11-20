@@ -9,7 +9,10 @@
   "scripts": {
     "build": "nest build",
     "start": "nest start --env-file .env",
-    "start:dev": "nest start --watch --env-file .env"
+    "start:dev": "nest start --watch --env-file .env",
+    "floci:up": "podman compose up -d --wait",
+    "floci:down": "podman compose down",
+    "cognito:setup": "node scripts/setup-cognito.mjs"
   },
   "dependencies": {
     "@nestjs/common": "^12.0.1",

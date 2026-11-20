@@ -7,7 +7,7 @@ title: 道具をそろえる
 
 ![01 章 道具をそろえる](./images/00-thumbnail.svg)
 
-このハンズオンで使うのは、**Node.js 26**・**VS Code**・**AWS アカウント** の 3 つです。
+このハンズオンで使うのは、**Node.js 26**・**VS Code**・**Podman** の 3 つです。Amazon Cognito は、エミュレーターの **Floci** を Podman で手元に動かして使うので、AWS のアカウントは要りません。
 
 ## お使いの OS を選ぶ
 
@@ -75,15 +75,62 @@ v26.13.1
 
 エディタには [Visual Studio Code](https://code.visualstudio.com/) を使います。公式サイトからインストーラーをダウンロードして入れます。使い方は [開発ツール](../../TOOLS.md) にまとめています。
 
-## AWS アカウントを用意する
+## Podman を入れる
 
-03 章から、Amazon Cognito のユーザープールを AWS のコンソールで作ります。AWS アカウントを持っていなければ、[AWS のサインアップのページ](https://aws.amazon.com/jp/free/) から作ってください（クレジットカードと電話番号が要ります）。
+Podman は、コンテナを動かす道具です。03 章から、Cognito のエミュレーター Floci をコンテナで動かします。あわせて、`podman compose` が使う **docker-compose** も入れます。
 
-コンソール（<https://console.aws.amazon.com/>）にサインインできれば、この節の準備は終わりです。
+:::::platform
+::::macos
+[Homebrew](https://brew.sh/ja/) で入れます。
 
-:::notice
-Cognito のユーザープールは、月のアクティブユーザーが 1 万人までなら無料です（Lite プラン）。このハンズオンで作るユーザーは数人なので、料金はかかりません。
-:::
+```bash
+brew install podman docker-compose
+```
+
+macOS ではコンテナが Linux の仮想マシンの中で動きます。仮想マシンを作って起動します（`init` は最初の 1 回だけ。パソコンを再起動したら `start` をし直します）。
+
+```bash
+podman machine init
+podman machine start
+```
+::::
+::::windows
+```powershell
+winget install --id RedHat.Podman --source winget
+winget install --id Docker.DockerCompose --source winget
+```
+
+PowerShell 7 を開き直し、コンテナを動かす仮想マシンを作って起動します（`init` は最初の 1 回だけ。パソコンを再起動したら `start` をし直します）。仮想マシンには WSL2 を使います。WSL2 が入っていなければ `init` が入れるか聞いてくるので、案内に従ってください。
+
+```powershell
+podman machine init
+podman machine start
+```
+::::
+::::linux
+Ubuntu の例です。Linux ではコンテナがそのまま動くので、仮想マシンは要りません。docker-compose が Podman とやり取りできるように、Podman のソケットを有効にします。
+
+```bash
+sudo apt-get update
+sudo apt-get install -y podman docker-compose-v2
+systemctl --user enable --now podman.socket
+```
+::::
+:::::
+
+確かめます。
+
+```bash
+podman --version
+podman compose version
+```
+
+```text
+podman version 6.2.0
+Docker Compose version 5.8.0
+```
+
+`podman compose version` が `Docker Compose version` を表示すれば大丈夫です（細かい番号は入れた日によって違います）。
 
 ## 参考にした公式ドキュメント
 
@@ -92,4 +139,5 @@ Cognito のユーザープールは、月のアクティブユーザーが 1 万
 - [Node.js: ダウンロード](https://nodejs.org/ja/download) … Node.js の入れ方
 - [Microsoft Learn: Windows への PowerShell のインストール](https://learn.microsoft.com/ja-jp/powershell/scripting/install/installing-powershell-on-windows) … winget で PowerShell 7 を入れる方法
 - [Visual Studio Code: Setup Overview](https://code.visualstudio.com/docs/setup/setup-overview) … VS Code の入れ方
-- [Amazon Cognito の料金](https://aws.amazon.com/jp/cognito/pricing/) … Lite プランの無料枠（月 1 万アクティブユーザー）
+- [Podman: Installation](https://podman.io/docs/installation) … OS ごとの Podman の入れ方と `podman machine`
+- [Podman: podman-compose](https://docs.podman.io/en/latest/markdown/podman-compose.1.html) … `podman compose` が docker-compose に処理を渡すこと

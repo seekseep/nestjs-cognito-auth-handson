@@ -4,11 +4,14 @@ HTML にサインインのフォームを足し、Cognito から受け取った�
 
 ## 動かし方
 
-`.env.example` をコピーして `api/.env` を作り、自分のユーザープール ID とクライアント ID に書き換えてから起動します。
+Podman で Cognito のエミュレーター Floci を起動し、ユーザープールとユーザーを作ってから（`api/.env` ができます）、API を起動します。
 
 ```bash
 cd api
 npm install
-cp .env.example .env
+npm run floci:up
+npm run cognito:setup
 npm run start:dev      # http://localhost:3000
 ```
+
+ユーザーは `alice@example.com`（admin）と `bob@example.com`、パスワードはどちらも `Passw0rd!` です。

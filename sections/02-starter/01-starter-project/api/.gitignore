@@ -3,7 +3,5 @@ node_modules/
 dist/
 *.tsbuildinfo
 
-# 環境変数。実値は .env に書き、見本の .env.example だけを Git に入れる
+# 環境変数（Git に入れない）
 .env
-.env.*
-!.env.example

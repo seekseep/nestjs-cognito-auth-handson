@@ -14,7 +14,9 @@ NestJS のメモの REST API に、Amazon Cognito のサインインと、認証
 **どれから始めても進められる** ことが大事な条件。B は A を終えていなくても始められるように、02 章で「はじめのプロジェクト」
 （メモの REST API と HTML 1 枚）を ZIP で配り、中身を短く説明する。
 
-**最小限の構成** にする。Podman・compose・Next.js・Amplify・OpenAPI は使わない。
+**最小限の構成** にする。Next.js・Amplify・OpenAPI は使わない。Cognito は本物の AWS ではなく、エミュレーター
+**Floci**（`docker.io/floci/floci`、ポート 4566）を Podman（`podman compose`）で手元に動かす。Podman で動かすのは Floci だけで、
+NestJS は手元の Node.js で動かす。
 
 handson-builder スキルの骨格（`sections/` ＋ Starlight の `site/` ＋ GitHub Pages）を使っている。
 全体の計画と方針の正本は GitHub のイシュー #1。
@@ -31,7 +33,7 @@ handson-builder スキルの骨格（`sections/` ＋ Starlight の `site/` ＋ G
 - 本文は `LECTURE.md`（`docs: true`）。節の直下の `README.md` は ZIP を展開した人向けの起動方法
 - 説明図は `images/` に SVG で置く（`00-thumbnail.svg` を先頭サムネに。`tools/thumbnail.mjs` の THUMBNAILS に足して `node tools/thumbnail.mjs`）
 - 章の直下には README を置かない
-- 準備の節や Cognito のコンソール操作の節のように、プロジェクトを持たない節もある（本文だけ）
+- 準備の節のように、プロジェクトを持たない節もある（本文だけ）
 
 ## プロジェクトの形
 
@@ -52,12 +54,17 @@ sections/<sec>/<lec>/
 - パッケージマネージャはレクチャー側が **npm**（`api/package-lock.json`）、サイトが pnpm
 - ポートは **3000**。画面（`public/index.html`）と API を同じ NestJS から配るので、CORS は要らない
 - プロジェクトは **ビルドして動かすのに要るものだけ** にする（`src/`・`public/`・`package.json`・`package-lock.json`・
-  `tsconfig.json`・`tsconfig.build.json`・`nest-cli.json`・`.gitignore`・`.env.example`）。`nest new` が作るテスト
+  `tsconfig.json`・`tsconfig.build.json`・`nest-cli.json`・`.gitignore`。03-01 からは `compose.yaml`・`scripts/setup-cognito.mjs`）。`nest new` が作るテスト
   （`test/`・`*.spec.ts`・Vitest。テストは C の範囲）、lint・format（oxlint・Prettier）、`AGENTS.md`・`README.md`・
   `.gitattributes`、`AppController`・`AppService`（`GET /` が index.html とぶつかる）は消している。
-  `package.json` のスクリプトは `build`・`start`・`start:dev` だけ
+  `package.json` のスクリプトは `build`・`start`・`start:dev`（03-01 から `floci:up`・`floci:down`・`cognito:setup`）だけ
 - 入力チェックは Zod ＋ NestJS 12 の `StandardSchemaValidationPipe`（`@Body({ schema })`）。`:id` は `ParseUUIDPipe`
-- `.env` は gitignore。`api/.env.example` にプレースホルダだけを書いて追跡する。起動は Nest CLI の `--env-file .env`（`package.json` の `start`・`start:dev`）
+- `.env` は gitignore。`npm run cognito:setup`（`scripts/setup-cognito.mjs`）が Floci にユーザープール・クライアント・
+  ユーザー（alice は admin、bob。パスワード `Passw0rd!`）・`admin` グループを作り、`COGNITO_ENDPOINT`・`COGNITO_USER_POOL_ID`・
+  `COGNITO_USER_POOL_CLIENT_ID` を `.env` に書く。起動は Nest CLI の `--env-file .env`（`package.json` の `start`・`start:dev`）
+- トークンの検証は aws-jwt-verify の `JwtVerifier`（`CognitoJwtVerifier` は発行元が amazonaws.com に固定なので使えない）。
+  `issuer` は `${COGNITO_ENDPOINT}/${プール ID}`、`jwksUri` はその下の `/.well-known/jwks.json`、`token_use`・`client_id` は
+  `customJwtCheck` で確かめる。aws-jwt-verify の既定の取得は https だけなので、`SimpleJwksCache` に `fetch` の fetcher を渡す
 - **秘匿情報（ユーザープール ID・クライアント ID・AWS アカウント ID・キー）の実値は絶対にコミットしない**
 
 ## 本文の分量

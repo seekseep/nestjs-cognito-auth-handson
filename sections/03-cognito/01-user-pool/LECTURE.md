@@ -9,7 +9,7 @@ title: ユーザープールを作る
 
 いまのメモ API は、誰でも読み書きできます。ここから、**サインインした人だけが使える** ようにしていきます。サインインの仕組みには **Amazon Cognito** を使います。
 
-この節では、AWS のコンソールで Cognito のユーザープールとアプリケーションクライアントを作り、サインインに使うユーザーを 1 人登録します。コードは書きません。
+このハンズオンでは、本物の Cognito の代わりに、手元で動くエミュレーター **[Floci](https://floci.io/)** を Podman で動かします。Cognito と同じ API で呼べ、同じ形のトークンを発行します。この節では Floci を起動し、ユーザープールとアプリケーションクライアントを作り、サインインに使うユーザーを登録します。
 
 ## Cognito の役割
 
@@ -21,82 +21,78 @@ title: ユーザープールを作る
 
 | 用語 | 意味 |
 |---|---|
-| **ユーザープール** | ユーザー（メールアドレスとパスワード）を入れておく場所。サインインやパスワードの変更を引き受ける |
+| **ユーザープール** | ユーザー（メールアドレスとパスワード）を入れておく場所。サインインを引き受ける |
 | **アプリケーションクライアント** | ユーザープールを使うアプリの登録。画面はこの ID を使ってユーザープールにサインインを頼む |
 | **トークン** | サインインに成功すると受け取る、署名付きの「通行証」（JWT）。API はこれを見て、誰からの呼び出しかを確かめる |
 
-## ユーザープールを作る
+## Floci を起動する
 
-1. AWS のコンソールにサインインし、右上のリージョンを **アジアパシフィック（東京）ap-northeast-1** にする
-2. 上の検索欄で **Cognito** を開き、**ユーザープールを作成** を押す
-3. 「アプリケーションを定義」で次のように選ぶ
+::diff{file="api/compose.yaml"}
 
-| 項目 | 選ぶもの |
-|---|---|
-| アプリケーションタイプ | **シングルページアプリケーション（SPA）** |
-| アプリケーションに名前を付ける | `memo-app` |
-| サインイン識別子のオプション | **メールアドレス** |
-| 自己登録 | 有効にしない |
-| サインアップのための必須属性 | **email** |
-| リターン URL | 空のまま |
+- ポートは **4566** です。Floci は認証なしで API を受け付けるので、`127.0.0.1:` を付けて自分のパソコンからだけ届くようにしています
+- `FLOCI_SECURITY_EXTRA_CORS_ALLOWED_ORIGINS` … 次の節で、画面（`http://localhost:3000`）から Floci を直接呼ぶので、その呼び出しを許します
 
-4. **ユーザーディレクトリを作成する** を押す
+起動と停止のコマンドを `package.json` に足します。あわせて、次に作るスクリプトを動かすコマンドも足します。
 
-SPA を選ぶと、**クライアントシークレットの無い** アプリケーションクライアントが作られます。ブラウザで動くコードは誰でも中身を見られるので、秘密の値は持たせられないからです。
+::diff{file="api/package.json"}
 
-## パスワードでのサインインを許可する
+`api/` で Floci を起動します。
 
-次の節の画面は、メールアドレスとパスワードをそのまま Cognito に送ってサインインします（`USER_PASSWORD_AUTH`）。この方式は既定では許可されていないので、足します。
+```bash
+npm run floci:up
+```
 
-1. 左のメニューの **アプリケーションクライアント** から、作った `memo-app` を開く
-2. 「アプリケーションクライアントに関する情報」の **編集** を押す
-3. 「認証フロー」で **ユーザー名とパスワード（ALLOW_USER_PASSWORD_AUTH）を使用してサインインします** にチェックを入れる
-4. **変更を保存** を押す
+```text
+ Container api-floci-1  Healthy
+```
 
-## ユーザーを作る
+`Healthy` と出れば準備できています。
 
-1. 左のメニューの **ユーザー** を開き、**ユーザーを作成** を押す
-2. 次のように入れて、**ユーザーを作成** を押す
+## ユーザープールとユーザーを作る
 
-| 項目 | 入れるもの |
-|---|---|
-| 招待メッセージ | **招待を送信しない** |
-| E メールアドレス | 例: `alice@example.com` |
-| E メールアドレスを検証済みとしてマーク | チェックを入れる |
-| 仮パスワード | **パスワードの設定** を選び、仮のパスワードを入れる（例: `Passw0rd!`） |
+Cognito の API を呼んで、ユーザープール・アプリケーションクライアント・ユーザーを作るスクリプトです。
 
-パスワードは、既定では「8 文字以上で、数字・記号・大文字・小文字をそれぞれ 1 文字以上」が必要です。
+::diff{file="api/scripts/setup-cognito.mjs"}
 
-コンソールで作ったユーザーは、最初のサインインで自分のパスワードに変える決まりです（確認ステータスが **パスワードを強制的に変更** になります）。次の節の画面で、新しいパスワードを決めます。
+- `cognito()` … Cognito の API を 1 つ呼びます。どの操作かを `x-amz-target` ヘッダーで伝えます
+- `CreateUserPoolClient` … `GenerateSecret: false` で、クライアントシークレットの無いクライアントにします。ブラウザで動くコードは誰でも中身を見られるので、秘密の値は持たせられないからです。`ALLOW_USER_PASSWORD_AUTH` で、メールアドレスとパスワードでのサインインを許します
+- `AdminSetUserPassword` … `Permanent: true` で、そのままサインインに使えるパスワードにします
+- 最後に、Cognito の入口・ユーザープール ID・クライアント ID を `api/.env` に書きます。次の節から API が読みます
 
-## ID を控える
+```bash
+npm run cognito:setup
+```
 
-次の 2 つを控えておきます。次の節で使います。
+```text
+ユーザープール us-east-1_578d9b58c・クライアント 53c2fa7fe336463bbd611840a8 を作り、.env に書きました
+ユーザー: alice@example.com（admin）・bob@example.com、パスワードはどちらも Passw0rd!
+```
 
-| 値 | 場所 | 形 |
-|---|---|---|
-| ユーザープール ID | ユーザープールの「概要」 | `ap-northeast-1_` で始まる文字列 |
-| クライアント ID | 「アプリケーションクライアント」の一覧 | 英数字 26 文字くらい |
-
-どちらも画面（ブラウザ）に渡る値なので「秘密」ではありませんが、自分の AWS アカウントの情報なので Git には入れず、`.env` で渡します（次の節）。
+:::warning
+Floci はデータをメモリに持つので、Floci を止めたり、パソコンを再起動したりすると、ユーザープールもユーザーも消えます。そのときは `npm run floci:up` と `npm run cognito:setup` をやり直し、API を起動し直してください（ID が変わるので、`.env` を読み直す必要があります）。
+:::
 
 ## 参考にした公式ドキュメント
 
 この節は、次の公式ドキュメントをもとに書いています。
 
+- [Floci: Cognito](https://floci.io/floci/services/cognito/) … Floci の Cognito で使える機能と、CORS の設定（`FLOCI_SECURITY_EXTRA_CORS_ALLOWED_ORIGINS`）
 - [Amazon Cognito: User pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools.html) … ユーザープールの役割
 - [Amazon Cognito: Application-specific settings with app clients](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html) … アプリケーションクライアントと、クライアントシークレットを使わない設定
-- [Amazon Cognito: Authentication flows](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow-methods.html) … `ALLOW_USER_PASSWORD_AUTH` でのサインイン
-- [Amazon Cognito: Creating user accounts as administrator](https://docs.aws.amazon.com/cognito/latest/developerguide/how-to-create-user-accounts.html) … コンソールでのユーザーの作り方と、仮パスワード
+- [Amazon Cognito API: AdminSetUserPassword](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminSetUserPassword.html) … `Permanent` で仮でないパスワードにする
+
+## この節を終えたときのディレクトリ
+
+::tree
+
+:::download
+[この節を終えた状態をダウンロード](./project.zip)
+:::
 
 :::faq
 
-### 「ユーザープールを作成」の画面が、表と違う
+### `npm run floci:up` が `exit status 1` で終わる
 
-コンソールは画面が変わることがあります。大事なのは、(1) サインインにメールアドレスを使う、(2) クライアントシークレットが無い、(3) 認証フローに `ALLOW_USER_PASSWORD_AUTH` がある、の 3 つです。
-
-### 使い終わったユーザープールを消したい
-
-ユーザープールを開き、右上の **削除** から消せます。削除保護が有効なときは、先に「設定」で削除保護を無効にします。
+ほかのプログラムがポート 4566 を使っていると起動できません。`podman compose logs floci` でログを見てください。macOS・Windows では、`podman machine start` をしていないときにも失敗します。
 
 :::
