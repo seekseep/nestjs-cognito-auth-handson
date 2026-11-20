@@ -7,9 +7,7 @@ title: /admin を middleware で守る
 
 ![06 章 /admin を middleware で守る](./images/00-thumbnail.svg)
 
-前の節の `@Public()` は、メソッドやコントローラーごとに決まりを付ける方法でした。この節では、**パス**（URL）で決まりを付けます。例として、管理用の API を `/admin` の下にまとめ、`/admin` の下はまるごと admin グループの人だけが使えるようにします。
-
-パスで決まりを付けるには、**middleware** を使います。
+前の節の `@Public()` は、メソッドやコントローラーごとに決まりを付ける方法でした。この節では、**middleware** で **パス**（URL）ごとに決まりを付けます。管理用の API を `/admin` の下にまとめ、`/admin` の下はまるごと admin グループの人だけが使えるようにします。
 
 ## NestJS がリクエストを処理する順番
 
@@ -18,13 +16,7 @@ title: /admin を middleware で守る
                   （どこかで例外が起きると、エラーの応答になる）
 ```
 
-| 段 | 何で決まるか | このハンズオンで使っているもの |
-|---|---|---|
-| Middleware | パス（`forRoutes`） | この節の `AdminMiddleware` |
-| Guard | メソッド・コントローラー（`@UseGuards`・`APP_GUARD`） | `AuthGuard` |
-| Pipe | 引数（`@Body({ schema })` など） | Zod の入力チェック・`ParseUUIDPipe` |
-
-middleware は、Guard よりさらに先に動きます。middleware の時点では、まだ Guard がトークンを確かめていないので、`request.user` はありません。
+middleware は、Guard より先に動きます。その時点では、まだ Guard がトークンを確かめていないので、`request.user` はありません。
 
 ## トークンの検証を切り出す
 
@@ -36,7 +28,7 @@ Guard は `TokenVerifier` を使う形に書き換えます。
 
 ::diff{file="api/src/auth/auth.guard.ts"}
 
-`if (request.user) return true;` は、「middleware がもう検証していれば、もう一度は確かめない」という意味です。`/admin` の下では middleware と Guard の両方が動くので、同じトークンを 2 回確かめずに済みます。
+`if (request.user) return true;` は、「middleware がもう検証していれば、もう一度は確かめない」という意味です。
 
 `AuthModule` で `TokenVerifier` を登録し、ほかのモジュールからも使えるように `exports` に入れます。
 
@@ -46,7 +38,7 @@ Guard は `TokenVerifier` を使う形に書き換えます。
 
 ::diff{file="api/src/admin/admin.middleware.ts"}
 
-- `NestMiddleware` の `use(req, res, next)` が、リクエストごとに呼ばれます。`next()` を呼ぶと次の段（Guard）へ進みます
+- `use(req, res, next)` が、リクエストごとに呼ばれます。`next()` を呼ぶと次の段（Guard）へ進みます
 - トークンを確かめ、admin グループでなければ `ForbiddenException`（`403`）を投げます
 - 確かめたユーザーを `req.user` に入れておくので、コントローラーで `@CurrentUser()` が使えます
 
@@ -64,8 +56,8 @@ Guard は `TokenVerifier` を使う形に書き換えます。
 
 ::diff{file="api/src/admin/admin.module.ts"}
 
-- middleware は `@Module()` には書かず、`configure()` の中で `consumer.apply(...).forRoutes(...)` と書きます。そのため `NestModule` を実装します
-- `'admin{/*splat}'` は「`/admin` と、その下のすべて」です。`*splat` は何文字でも合う部分で、`{}` で囲むと「無くてもよい」になります
+- middleware は `configure()` の中で `consumer.apply(...).forRoutes(...)` と書きます
+- `'admin{/*splat}'` は「`/admin` と、その下のすべて」です
 
 `AppModule` で読み込みます。
 
@@ -85,7 +77,7 @@ admin でないユーザー（bob）のトークンだと `403` です。
 {"message":"Admin only","error":"Forbidden","statusCode":403}
 ```
 
-トークン無しなら `401` です。存在しない `/admin` を呼んでも `404` ではなく `401` になります。middleware は、ルートがあるかを調べるより先に、パスだけを見て動くからです。
+トークン無しなら `401` です。存在しない `/admin` を呼んでも `404` ではなく `401` になります。middleware は、ルートがあるかより先に、パスだけを見て動くからです。
 
 :::::platform
 ::::macos-linux
@@ -109,13 +101,7 @@ curl -s -o NUL -w "%{http_code}\n" http://localhost:3000/admin
 
 ## Guard と middleware の使い分け
 
-| | Guard | Middleware |
-|---|---|---|
-| 決める単位 | メソッド・コントローラー | パス |
-| 呼ばれるメソッドの情報（`@Public()` など） | 読める | 読めない（まだ決まっていない） |
-| 向いていること | 認証・認可の多く | パスでまとめた決まり、ログなど全部に掛けたいこと |
-
-このハンズオンでは、ふだんの認証は Guard、`/admin` の下のように「パスでまとめて決めたい」ものは middleware、と使い分けています。
+Guard はメソッド・コントローラー単位で決め、`@Public()` のようなメタデータを読めます。middleware はパス単位で決め、メタデータは読めません。ふだんの認証は Guard、`/admin` の下のように「パスでまとめて決めたい」ものは middleware、と使い分けます。
 
 ## 参考にした公式ドキュメント
 
@@ -138,13 +124,5 @@ curl -s -o NUL -w "%{http_code}\n" http://localhost:3000/admin
 ### `forRoutes('admin')` と書いてもいい？
 
 Express では `/admin/notes` のような下のパスにも掛かりますが、Fastify では `/admin` ちょうどにしか掛かりません。NestJS のドキュメントでは、どちらでも同じに動く `'admin{/*splat}'` を勧めています。
-
-### middleware で `request.user` が読めない
-
-middleware は Guard より先に動くので、Guard が入れる `request.user` はまだありません。middleware で誰かを知りたいときは、この節のように middleware の中でトークンを確かめます。
-
-### 画面に「全員のメモ」を出したい
-
-admin でサインインしているなら、`/notes` もすでに全員のメモを返します（05 章）。`/admin/notes` は、「admin しか呼べない API をパスでまとめる」例として作りました。
 
 :::

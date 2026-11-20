@@ -48,14 +48,27 @@ sections/<sec>/<lec>/
         └── admin/          06-02 から（/admin の middleware）
 ```
 
-- 言語は **TypeScript**。NestJS 12（ESM。import の末尾は `.js`、テストは Vitest、lint は oxlint）
+- 言語は **TypeScript**。NestJS 12（ESM。import の末尾は `.js`）
 - パッケージマネージャはレクチャー側が **npm**（`api/package-lock.json`）、サイトが pnpm
 - ポートは **3000**。画面（`public/index.html`）と API を同じ NestJS から配るので、CORS は要らない
-- `nest new` が生成したファイルは、教える必要がない限りそのまま残す。ただし `AppController`・`AppService`（`GET /` が
-  index.html とぶつかる）と、`test/` の e2e（テストは C の範囲）は 02 章のプロジェクトで消している
+- プロジェクトは **ビルドして動かすのに要るものだけ** にする（`src/`・`public/`・`package.json`・`package-lock.json`・
+  `tsconfig.json`・`tsconfig.build.json`・`nest-cli.json`・`.gitignore`・`.env.example`）。`nest new` が作るテスト
+  （`test/`・`*.spec.ts`・Vitest。テストは C の範囲）、lint・format（oxlint・Prettier）、`AGENTS.md`・`README.md`・
+  `.gitattributes`、`AppController`・`AppService`（`GET /` が index.html とぶつかる）は消している。
+  `package.json` のスクリプトは `build`・`start`・`start:dev` だけ
 - 入力チェックは Zod ＋ NestJS 12 の `StandardSchemaValidationPipe`（`@Body({ schema })`）。`:id` は `ParseUUIDPipe`
 - `.env` は gitignore。`api/.env.example` にプレースホルダだけを書いて追跡する。起動は Nest CLI の `--env-file .env`（`package.json` の `start`・`start:dev`）
 - **秘匿情報（ユーザープール ID・クライアント ID・AWS アカウント ID・キー）の実値は絶対にコミットしない**
+
+## 本文の分量
+
+- **重要な要素だけを理解させる**。「あったら良い」説明は書かない
+- 手順は 1 通りに絞る。選択肢・別解（別のインストール方法、CLI での作り方など）を並べない
+- 書かないもの: 任意の道具や別のやり方の紹介、「〜でもかまいません」、豆知識、コラム、長い歴史や背景、同じことの言い直し、流れに要らない表
+- `::diff` の下の箇条書きは、そのコードを読むのに欠かせない点だけ
+- `:::faq` は、手順どおりに進めても本当につまずく問題だけ。無ければ `:::faq` ごと書かない
+- 残すもの: その節の重要な要素、打つコマンドと期待する出力、`::diff`、動かして確かめる手順、本番で危ないことへの警告、
+  「参考にした公式ドキュメント」、`::tree`、`:::download`
 
 ## 本文の書き方（センチネル）
 
