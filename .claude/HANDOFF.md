@@ -21,7 +21,7 @@
 
 - 章と節（`.claude/AGENTS.md` とイシュー #1 も参照）
   - 01 準備: 01-tools（Node.js・Podman）
-  - 02 エンドポイントを作る: 01-hello-world（手元の Node.js）/ 02-podman（Dockerfile・compose）/ 03-create-note / 04-list-notes / 05-delete-note
+  - 02 エンドポイントを作る: 01-hello-world（手元の Node.js）/ 02-podman（Dockerfile・compose）/ 03-create-note / 04-list-notes（`useStaticAssets` と一覧の画面 `public/notes.html`）/ 05-delete-note
   - 03 認証する: 01-sign-up（Floci・setup-cognito.mjs・`GET /config`・cognito.js・signup.html）/ 02-log-in（login.html）/
     03-require-token（verify-token.ts、`POST /notes` だけ 401）/ 04-create-with-token（本文だけ。curl でトークンを付ける）
   - 04 認可する: 01-owner-only（`ownerId` ＝ `sub`、削除で 403）/ 02-delete-fails（本文だけ。bob で 403）/ 03-delete-succeeds（本文だけ。alice で 204）

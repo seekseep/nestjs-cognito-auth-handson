@@ -8,3 +8,5 @@
 cd api
 podman compose up -d --build --wait   # http://localhost:3000
 ```
+
+ノートの一覧の画面は http://localhost:3000/notes.html です。

@@ -60,15 +60,7 @@ HTTP/1.1 401 Unauthorized
 {"message":"Missing bearer token","error":"Unauthorized","statusCode":401}
 ```
 
-一覧はトークン無しで見られます。
-
-```bash
-curl http://localhost:3000/notes
-```
-
-```json
-[]
-```
+一覧の画面（<http://localhost:3000/notes.html>）は、これまでどおりトークン無しで見られます。
 
 ## 参考にした公式ドキュメント
 

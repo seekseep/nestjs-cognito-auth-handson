@@ -46,7 +46,7 @@ sections/<sec>/<lec>/
 └── api/              NestJS（npx @nestjs/cli@12 new api --package-manager npm --skip-git から作った）
     ├── Dockerfile・.dockerignore・compose.yaml   02-02 から（03-01 で floci のサービスを足す）
     ├── scripts/setup-cognito.mjs                 03-01 から（ユーザープールとクライアントを作り、.env に書く）
-    ├── public/                                   03-01 から（cognito.js・signup.html、03-02 で login.html）
+    ├── public/                                   02-04 から notes.html（一覧の画面）、03-01 で cognito.js・signup.html、03-02 で login.html
     └── src/
         ├── app.controller.ts・app.service.ts     nest new のまま（03-01 で GET /config を足す）
         ├── notes/                                notes.controller.ts・notes.service.ts（AppModule に直接登録）
@@ -69,7 +69,8 @@ sections/<sec>/<lec>/
 - トークンの検証は aws-jwt-verify の `JwtVerifier`（`CognitoJwtVerifier` は発行元が amazonaws.com に固定なので使えない）。
   `jwksUri` は `iss` の下の `/.well-known/jwks.json`、`token_use`・`client_id` は `customJwtCheck`。既定の JWKS の取得は https だけなので、
   `SimpleJwksCache` に `fetch` の fetcher を渡す
-- API の確かめは curl（ログイン画面に出したアクセストークンを `TOKEN` に入れて付ける）。画面はサインアップとログインだけ
+- 作成・削除は curl（ログイン画面に出したアクセストークンを `TOKEN` に入れて付ける）で呼び、結果は一覧の画面（`/notes.html`、トークン無し）を読み込み直して見る。
+  画面は一覧・サインアップ・ログインの 3 枚。`/notes.html` にして、`GET /`（Hello World）とぶつからないようにしている
 - **秘匿情報（ユーザープール ID・クライアント ID・AWS アカウント ID・キー）の実値は絶対にコミットしない**
 
 ## 本文の分量
