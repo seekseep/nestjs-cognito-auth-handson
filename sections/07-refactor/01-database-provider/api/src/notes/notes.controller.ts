@@ -22,6 +22,8 @@ type Note = {
   updatedAt: string;
   // 作った人（アクセストークンの sub）。認証を足す前に作ったノートは null
   ownerId: string | null;
+  // ノートを分け合うチーム。無ければ null
+  teamId: string | null;
 };
 
 @Controller('notes')
@@ -31,7 +33,7 @@ export class NotesController {
   @Post()
   async create(
     @Headers('authorization') authorization: string | undefined,
-    @Body() input: { title: string; body?: string },
+    @Body() input: { title: string; body?: string; teamId?: string },
   ): Promise<Note> {
     // 正しいアクセストークンが無ければ、ここで 401 になる。あれば、トークンの中身が返る
     const user = await verifyToken(authorization);
@@ -44,10 +46,11 @@ export class NotesController {
       updatedAt: now,
       // 作った人は、アクセストークンの sub（ユーザーの ID）
       ownerId: user.sub,
+      teamId: input.teamId ?? null,
     };
     this.db
       .prepare(
-        'INSERT INTO notes (id, title, body, createdAt, updatedAt, ownerId) VALUES (:id, :title, :body, :createdAt, :updatedAt, :ownerId)',
+        'INSERT INTO notes (id, title, body, createdAt, updatedAt, ownerId, teamId) VALUES (:id, :title, :body, :createdAt, :updatedAt, :ownerId, :teamId)',
       )
       .run(note);
     return note;
@@ -68,13 +71,21 @@ export class NotesController {
   ): Promise<void> {
     const user = await verifyToken(authorization);
     const note = this.db
-      .prepare('SELECT ownerId FROM notes WHERE id = ?')
-      .get(id) as Pick<Note, 'ownerId'> | undefined;
+      .prepare('SELECT ownerId, teamId FROM notes WHERE id = ?')
+      .get(id) as Pick<Note, 'ownerId' | 'teamId'> | undefined;
     if (!note) {
       throw new NotFoundException(`Note ${id} not found`);
     }
-    // 作った人でなければ 403
-    if (note.ownerId !== user.sub) {
+    // admin グループの人は、だれのノートでも消せる
+    const isAdmin = user['cognito:groups']?.includes('admin') ?? false;
+    // ノートのチームに入っている人も消せる。所属は team_members の表で確かめる
+    const isMember =
+      note.teamId !== null &&
+      this.db
+        .prepare('SELECT 1 FROM team_members WHERE teamId = ? AND userId = ?')
+        .get(note.teamId, user.sub) !== undefined;
+    // 作った人でも、admin でも、同じチームの人でもなければ 403
+    if (note.ownerId !== user.sub && !isAdmin && !isMember) {
       throw new ForbiddenException();
     }
     this.db.prepare('DELETE FROM notes WHERE id = ?').run(id);

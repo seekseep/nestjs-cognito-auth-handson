@@ -1,6 +1,6 @@
 import { DatabaseSync } from 'node:sqlite';
 
-/** データベース（DB_PATH のファイル）を開き、notes テーブルが無ければ作る。 */
+/** データベース（DB_PATH のファイル）を開き、テーブルが無ければ作る。 */
 export function openDatabase(): DatabaseSync {
   const db = new DatabaseSync(process.env.DB_PATH ?? 'notes.db');
   db.exec(`
@@ -10,8 +10,17 @@ export function openDatabase(): DatabaseSync {
       body TEXT NOT NULL,
       createdAt TEXT NOT NULL,
       updatedAt TEXT NOT NULL,
-      ownerId TEXT
-    ) STRICT
+      ownerId TEXT,
+      teamId TEXT
+    ) STRICT;
+    CREATE TABLE IF NOT EXISTS teams (
+      id TEXT PRIMARY KEY
+    ) STRICT;
+    CREATE TABLE IF NOT EXISTS team_members (
+      teamId TEXT NOT NULL REFERENCES teams (id),
+      userId TEXT NOT NULL,
+      PRIMARY KEY (teamId, userId)
+    ) STRICT;
   `);
   return db;
 }

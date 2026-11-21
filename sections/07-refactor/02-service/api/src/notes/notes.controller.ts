@@ -18,7 +18,7 @@ export class NotesController {
   @Post()
   async create(
     @Headers('authorization') authorization: string | undefined,
-    @Body() input: { title: string; body?: string },
+    @Body() input: { title: string; body?: string; teamId?: string },
   ): Promise<Note> {
     // 正しいアクセストークンが無ければ、ここで 401 になる。あれば、トークンの中身が返る
     const user = await verifyToken(authorization);
@@ -37,6 +37,6 @@ export class NotesController {
     @Param('id') id: string,
   ): Promise<void> {
     const user = await verifyToken(authorization);
-    this.notesService.remove(id, user.sub);
+    this.notesService.remove(id, user);
   }
 }
