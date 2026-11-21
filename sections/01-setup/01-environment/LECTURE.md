@@ -1,11 +1,11 @@
 ---
 docs: true
-title: 道具をそろえる
+title: 準備
 ---
 
-# 道具をそろえる
+# 準備
 
-![01 章 道具をそろえる](./images/00-thumbnail.svg)
+![01 章 準備](./images/00-thumbnail.svg)
 
 このハンズオンで使うのは、**Node.js 26**・**Podman**・エディタの **VS Code** です。API と、Amazon Cognito のエミュレーター **Floci** を Podman のコンテナで動かすので、AWS のアカウントは要りません。
 
