@@ -8,6 +8,8 @@ node_modules/
 
 # scripts/setup-cognito.mjs が書き出す、画面が読む設定（ユーザープールの ID とクライアント ID）
 **/public/config.json
+# Pre Token Generation の Lambda の zip（lambda/index.mjs から作る）
+**/lambda.zip
 
 # NestJS のビルド成果物
 dist/

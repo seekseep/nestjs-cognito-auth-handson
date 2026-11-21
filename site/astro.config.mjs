@@ -160,6 +160,7 @@ export default defineConfig({
         { label: '05. 認証する', items: [{ autogenerate: { directory: '05-authentication' } }] },
         { label: '06. 認可する', items: [{ autogenerate: { directory: '06-authorization' } }] },
         { label: '07. 整理する', items: [{ autogenerate: { directory: '07-refactor' } }] },
+        { label: '08. 権限をどこで確かめるか', items: [{ autogenerate: { directory: '08-where-to-check' } }] },
       ],
       editLink: {
         baseUrl: `${repoUrl}/edit/main/`,
