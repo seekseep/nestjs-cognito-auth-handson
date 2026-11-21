@@ -14,9 +14,11 @@ NestJS のプロジェクトを作り、手元の Node.js で動かして、`Hel
 作業するフォルダで、NestJS のプロジェクトを `api/` に作ります。
 
 ```bash
-npx @nestjs/cli@12 new api --package-manager npm --skip-git
+npx @nestjs/cli@12 new api --package-manager npm --skip-git --type esm --no-observe --skip-skills
 cd api
 ```
+
+`--type esm` でモジュールの方式を ESM にし、`--no-observe` で監視サービス（NestJS Observe）の設定を、`--skip-skills` でコーディングエージェント向けのファイルを飛ばします。付けないと、作るときにこの 3 つを聞かれます。
 
 このハンズオンでは使わない、テスト・lint・整形のファイルとライブラリを消します。
 
@@ -76,6 +78,7 @@ Hello World!
 この節は、次の公式ドキュメントをもとに書いています。
 
 - [NestJS: First steps](https://docs.nestjs.com/first-steps) … `nest new` が作るファイルと `npm run start:dev`
+- [NestJS: CLI command reference](https://docs.nestjs.com/cli/usages) … `nest new` の `--type`・`--no-observe`・`--skip-skills`
 - [NestJS: Controllers](https://docs.nestjs.com/controllers) … `@Controller()` と `@Get()`
 
 ## この節を終えたときのディレクトリ

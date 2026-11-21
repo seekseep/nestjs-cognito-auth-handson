@@ -43,7 +43,7 @@ sections/<sec>/<lec>/
 ├── README.md         起動方法（ZIP に入る。::tree には出さない）
 ├── LECTURE.md        教材本文（ZIP に入らない）
 ├── images/           説明図（ZIP に入らない）
-└── api/              NestJS（npx @nestjs/cli@12 new api --package-manager npm --skip-git から作った）
+└── api/              NestJS（npx @nestjs/cli@12 new api --package-manager npm --skip-git --type esm --no-observe --skip-skills から作った）
     ├── Dockerfile・.dockerignore・compose.yaml   02-02 から（03-01 で floci のサービスを足す）
     ├── scripts/setup-cognito.mjs                 03-01 から（ユーザープールとクライアントを作り、.env に書く）
     ├── public/                                   02-04 から notes.html（一覧の画面）、03-01 で cognito.js・signup.html、03-02 で login.html
