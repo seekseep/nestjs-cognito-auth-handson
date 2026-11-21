@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="700" viewBox="0 0 960 700" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="960" height="700" fill="#ffffff"/>
+<rect x="120" y="42" width="360" height="96" rx="16" fill="#fef9c3" stroke="#f59e0b" stroke-width="3.5"/>
+<text x="300" y="97.9333" text-anchor="middle" font-size="22.666666666666664" fill="#b45309" font-weight="600"><tspan x="300" dy="0">所属を変えたら、</tspan><tspan x="300" dy="32.8667">すぐに効かないと困るか</tspan></text>
+<rect x="120" y="242" width="360" height="96" rx="16" fill="#fef9c3" stroke="#f59e0b" stroke-width="3.5"/>
+<text x="300" y="297.933" text-anchor="middle" font-size="22.666666666666664" fill="#b45309" font-weight="600"><tspan x="300" dy="0">所属が多く、トークンが</tspan><tspan x="300" dy="32.8667">大きくなりすぎるか</tspan></text>
+<rect x="70" y="442" width="460" height="96" rx="16" fill="#fef9c3" stroke="#f59e0b" stroke-width="3.5"/>
+<text x="300" y="497.933" text-anchor="middle" font-size="22.666666666666664" fill="#b45309" font-weight="600"><tspan x="300" dy="0">DB への問い合わせを減らしたいか、</tspan><tspan x="300" dy="32.8667">ほかのサービスもトークンを使うか</tspan></text>
+<rect x="665" y="58" width="230" height="64" rx="16" fill="#dbeafe" stroke="#3b82f6" stroke-width="3.5"/>
+<text x="780" y="97.9333" text-anchor="middle" font-size="22.666666666666664" fill="#1d4ed8" font-weight="600">API で確かめる</text>
+<rect x="665" y="258" width="230" height="64" rx="16" fill="#dbeafe" stroke="#3b82f6" stroke-width="3.5"/>
+<text x="780" y="297.933" text-anchor="middle" font-size="22.666666666666664" fill="#1d4ed8" font-weight="600">API で確かめる</text>
+<rect x="665" y="458" width="230" height="64" rx="16" fill="#ede9fe" stroke="#8b5cf6" stroke-width="3.5"/>
+<text x="780" y="497.933" text-anchor="middle" font-size="22.666666666666664" fill="#6d28d9" font-weight="600">トークンに持たせる</text>
+<rect x="185" y="618" width="230" height="64" rx="16" fill="#dbeafe" stroke="#3b82f6" stroke-width="3.5"/>
+<text x="300" y="657.933" text-anchor="middle" font-size="22.666666666666664" fill="#1d4ed8" font-weight="600">API で確かめる</text>
+<path d="M486.00 90.00 L540.93 90.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M604.07 90.00 L659.00 90.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="572.5" y="97.9333" text-anchor="middle" font-size="22.666666666666664" fill="#0f172a" font-weight="600">はい</text>
+<path d="M300.00 144.00 L300.00 170.67" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M300.00 209.33 L300.00 236.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="300" y="197.933" text-anchor="middle" font-size="22.666666666666664" fill="#0f172a" font-weight="600">いいえ</text>
+<path d="M486.00 290.00 L540.93 290.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M604.07 290.00 L659.00 290.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="572.5" y="297.933" text-anchor="middle" font-size="22.666666666666664" fill="#0f172a" font-weight="600">はい</text>
+<path d="M300.00 344.00 L300.00 370.67" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M300.00 409.33 L300.00 436.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="300" y="397.933" text-anchor="middle" font-size="22.666666666666664" fill="#0f172a" font-weight="600">いいえ</text>
+<path d="M536.00 490.00 L565.93 490.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M629.07 490.00 L659.00 490.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="597.5" y="497.933" text-anchor="middle" font-size="22.666666666666664" fill="#0f172a" font-weight="600">はい</text>
+<path d="M300.00 544.00 L300.00 558.67" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M300.00 597.33 L300.00 612.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="300" y="585.933" text-anchor="middle" font-size="22.666666666666664" fill="#0f172a" font-weight="600">いいえ</text>
+</svg>

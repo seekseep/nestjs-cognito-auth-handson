@@ -23,6 +23,7 @@
   - 01 準備: 01-environment / 02 Hello World: 01-nestjs・02-podman（api と web の nginx）/ 03 設計する: 01-notes-api・02-authentication・03-authorization（表と図だけ）
   - 04 実装する: 01-sqlite・02-create・03-list・04-delete（コントローラーに直接）/ 05 認証する: 01-sign-up・02-log-in・03-require-token・04-create-with-token
   - 06 認可する: 01-kinds・02-ownership・03-role・04-membership / 07 整理する: 01-database-provider・02-service・03-auth-middleware
+  - 08 権限をどこで確かめるか: 01-overview・02-check-in-api・03-claims-in-token・04-compare
 - compose のプロジェクト名は、どの節も `api`（フォルダ名）。Floci の設定はどの節も同じなので、節を移っても Floci は作り直されない
 - `docker-compose` は既定で `Dockerfile` を探すので、`Containerfile` ではなく `Dockerfile`・`.dockerignore` にした
 

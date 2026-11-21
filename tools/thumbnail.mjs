@@ -65,6 +65,10 @@ const THUMBNAILS = [
   ['07-refactor/01-database-provider', '07', 'データベースをプロバイダーに分ける', ['NestJS', 'SQLite']],
   ['07-refactor/02-service', '07', '処理をサービスに分ける', ['NestJS']],
   ['07-refactor/03-auth-middleware', '07', '認証を middleware にする', ['NestJS', 'Middleware']],
+  ['08-where-to-check/01-overview', '08', '2 つの方法の概要', ['JWT', 'SQLite']],
+  ['08-where-to-check/02-check-in-api', '08', 'API で確かめる', ['NestJS', 'SQLite']],
+  ['08-where-to-check/03-claims-in-token', '08', 'トークンに持たせる', ['Cognito', 'Lambda']],
+  ['08-where-to-check/04-compare', '08', '比べる', ['JWT', 'SQLite']],
 ];
 
 function escapeXml(s) {

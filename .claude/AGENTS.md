@@ -27,14 +27,14 @@ handson-builder スキルの骨格（`sections/` ＋ Starlight の `site/` ＋ G
 | **節** | `sections/<NN-section>/<NN-lecture>/`。増減してよい | `05-authentication/03-require-token/` |
 
 - 章立て: 01 準備 / 02 Hello World（NestJS・Podman で API と nginx）/ 03 設計する（ノートの API・認証・認可。OpenAPI は使わず表と図だけ。コードは書かない）/
-  04 実装する（SQLite と作成・一覧・削除。コントローラーに直接書く）/ 05 認証する / 06 認可する（認可の種類（本文だけ）→ 所有 → 役割（Cognito のグループ admin）→ 所属（SQLite の teams・team_members））/ 07 整理する（DatabaseModule → サービス → 認証の middleware。1 節で 1 つだけ分け、動きは変えない。認可はノートを読んでから決めるのでサービスに置き、Guard にはしない）
+  04 実装する（SQLite と作成・一覧・削除。コントローラーに直接書く）/ 05 認証する / 06 認可する（認可の種類（本文だけ）→ 所有 → 役割（Cognito のグループ admin）→ 所属（SQLite の teams・team_members））/ 07 整理する（DatabaseModule → サービス → 認証の middleware。1 節で 1 つだけ分け、動きは変えない。認可はノートを読んでから決めるのでサービスに置き、Guard にはしない）/ 08 権限をどこで確かめるか（概要・API で確かめる（本文だけ）→ トークンに持たせる（Pre Token Generation V2 の Lambda、`teams` クレーム）→ 比べる（表と、はい・いいえのフローチャート））
 - 節のディレクトリは **その節を終えた時点のプロジェクト** を丸ごと持つ（`api/`）
 - 次の節は、前の節のディレクトリをコピーして差分を足して作る（`tools/copy-lecture.sh <前の節> <次の節>`）
 - 本文は `LECTURE.md`（`docs: true`）。節の直下の `README.md` は ZIP を展開した人向けの起動方法
 - 説明図は `images/` に置く。`00-thumbnail.svg` は `tools/thumbnail.mjs` の THUMBNAILS に足して `node tools/thumbnail.mjs`。
   ほかの図は genfig（`images/NN-xxx.py` → `.svg`）で作り、`xmllint --noout` を通し、描き出して目で確かめる。`text` のコードブロックで図（矢印・枠）を書かない
 - 章の直下には README を置かない。章のラベルは `site/astro.config.mjs` の sidebar に書く
-- 準備の節・設計の節（03 章・06-01）は、プロジェクトを持たない（本文だけ）
+- 準備の節・設計の節（03 章・06-01・08-01・08-04）と、コードを変えない 08-02 は、プロジェクトを持たない（本文だけ）
 
 ## プロジェクトの形
 
@@ -71,6 +71,10 @@ sections/<sec>/<lec>/
   `jwksUri` は `iss` の下の `/.well-known/jwks.json`、`token_use`・`client_id` は `customJwtCheck`。既定の JWKS の取得は https だけなので、
   `SimpleJwksCache` に `fetch` の fetcher を渡す
 - 作成・削除は curl（ログイン画面に出したアクセストークンを付ける）で呼び、結果は一覧の画面（`/notes.html`、トークン無し）を読み込み直して見る
+- 08-03 の Lambda: Floci は Lambda をコンテナで動かすので、floci に Podman のソケット（`${PODMAN_SOCKET}:/var/run/docker.sock`、場所は `podman info --format '{{.Host.RemoteSocket.Path}}'` を `.env` に書く）と
+  `security_opt: label=disable` を渡し、`FLOCI_SERVICES_LAMBDA_DOCKER_NETWORK: notes`（compose の `networks.default.name`）と `FLOCI_SERVICES_LAMBDA_DOCKER_HOST_OVERRIDE: floci` を付ける。
+  関数（`lambda/index.mjs`、`nodejs22.x`）は `lambda.zip`（`zip -j` / `Compress-Archive`）を `setup-cognito.mjs` が `POST /2015-03-31/functions` で作り、`CreateUserPool` の `LambdaConfig.PreTokenGenerationConfig`（`V2_0`）に付ける。
+  Lambda は `http://api:3000/teams?userId=<sub>` で所属を聞き、`claimsAndScopeOverrideDetails.accessTokenGeneration.claimsToAddOrOverride.teams` に載せる。`setup-cognito.mjs` は `.env` の `PODMAN_SOCKET` の行を残して書き直す
 - **秘匿情報（ユーザープール ID・クライアント ID・AWS アカウント ID・キー）の実値は絶対にコミットしない**
 
 ## 本文の分量
