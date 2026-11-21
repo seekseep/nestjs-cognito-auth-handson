@@ -34,15 +34,13 @@ curl
 | 04. 認可する | ノートを作った人だけが消せるようにし、別の人では 403、作った人では成功することを確かめる |
 | 05. 整理する | トークンの確認を middleware にまとめる |
 
-## ほかのハンズオンとの関係
+## 関連するハンズオン
 
-NestJS のハンズオンは 3 本に分かれていて、どれから始めても進められます。
+NestJS のハンズオンは 3 本に分かれていて、どれから始めても進められます。3 本のつながりは [関連するハンズオン](./sections/RELATED.md) にまとめています。
 
-| ハンズオン | 内容 |
-|---|---|
-| [基本的な REST API](https://github.com/seekseep/nestjs-rest-api-handson) | NestJS でメモの API を作る |
-| NestJS と Cognito で認証と認可（このハンズオン） | ノートの API に、Amazon Cognito のトークンでの認証と、作った人だけが消せる認可を足す |
-| [NestJS のテスト](https://github.com/seekseep/nestjs-testing-handson) | 単体テスト・結合テスト・E2E テストを書く |
+- [NestJS で作る REST API](https://github.com/seekseep/nestjs-rest-api-handson)
+- NestJS と Cognito で認証と認可（このハンズオン）
+- [NestJS のテスト](https://github.com/seekseep/nestjs-testing-handson)
 
 ## ドキュメントサイト
 
