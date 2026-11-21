@@ -50,12 +50,12 @@ sections/<sec>/<lec>/
     ├── public/                                   画面。HTML と同じ名前の .js の組。共通の部品は lib/（api.js・config.js・cognito.js）、見た目は style.css
     └── src/
         ├── database.ts                           04-01 から（07-01 で database/ に移し、DatabaseModule のプロバイダーにする）
-        ├── notes/                                notes.controller.ts（04-01 から）、notes.service.ts（07-02 から）。nest g が作る *.spec.ts も残す
+        ├── notes/                                notes.controller.ts（04-01 から）、notes.service.ts（07-02 から）。nest g controller・service は --no-spec で spec を作らない
         └── auth/                                 05-03 から verify-token.ts、07-03 で auth.middleware.ts
 ```
 
 - 言語は **TypeScript**。NestJS 12（ESM。import の末尾は `.js`）。パッケージマネージャはレクチャー側が **npm**、サイトが pnpm
-- `api/` は `nest new` が作ったもの（`AGENTS.md`・`README.md`・oxlint・Prettier・Vitest の設定とパッケージ・`scripts`）を何も消さない（A の #50 と同じ）
+- `api/` は `nest new` が作ったもの（`AGENTS.md`・`README.md`・oxlint・Prettier・Vitest の設定とパッケージ・`scripts`）を何も消さない（A の #50 と同じ）。`nest g controller`・`nest g service` には `--no-spec` を付ける（3 本でそろえる）
 - ポート: web（nginx、`public/` を配る）は `127.0.0.1:3000:80`、api は `127.0.0.1:3001:3000`、Floci は `127.0.0.1:4566`。
   API は `enableCors({ origin: 'http://localhost:3000' })`、Floci は `FLOCI_SECURITY_EXTRA_CORS_ALLOWED_ORIGINS=http://localhost:3000`
 - ノートは SQLite（`node:sqlite` の `DatabaseSync`）の `notes` テーブル。項目は A と同じ（`id`・`title`・`body`・`createdAt`・`updatedAt`）に `ownerId`（認証を足すまでは `null`）。

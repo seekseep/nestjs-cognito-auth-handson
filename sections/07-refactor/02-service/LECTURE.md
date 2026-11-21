@@ -12,11 +12,10 @@ SQL と処理（作った人かどうかの判定も）を **サービス** に�
 ![SQL と処理が NotesService に分かれる。DatabaseSync は NotesService に、NotesService は NotesController に注入される](./images/01-structure.svg)
 
 ```bash
-npx nest g service notes
+npx nest g service notes --no-spec
 ```
 
 ```text
-CREATE src/notes/notes.service.spec.ts (456 bytes)
 CREATE src/notes/notes.service.ts (89 bytes)
 UPDATE src/app.module.ts (484 bytes)
 ```
