@@ -102,6 +102,10 @@ ZIP には `.env` は入っていません。展開したら、上の「動か�
 
 :::faq
 
+### サインアップ画面がうまく動かない
+
+`F12` でブラウザの開発者ツールを開きます。**Network** タブで Cognito（`localhost:4566`）へのリクエストと返ってきたエラー（`__type` と `message`）を、**Console** タブで画面のエラーを確かめます。Floci のログは `api/` で `podman compose logs floci` で見られます。
+
 ### `Failed to fetch` や `ResourceNotFoundException` と出る
 
 Floci が止まっているか、起動し直してユーザープールが消えています。「動かす」の 3 つのコマンドをやり直してください。

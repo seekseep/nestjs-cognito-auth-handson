@@ -73,6 +73,15 @@ Hello World!
 
 :::faq
 
+### API のコンテナが動かない
+
+`api/` で、動いているコンテナと、API のログ（エラーの中身）を確かめます。
+
+```bash
+podman compose ps
+podman compose logs api
+```
+
 ### `podman compose up` が `Cannot connect to Podman` で失敗する
 
 macOS・Windows では、`podman machine start` で仮想マシンを起動してから実行してください。
