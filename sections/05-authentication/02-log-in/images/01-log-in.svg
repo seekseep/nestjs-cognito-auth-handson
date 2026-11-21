@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="280" viewBox="0 0 900 280" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="900" height="280" fill="#ffffff"/>
+<svg x="90.0" y="82.9" width="80.0" height="80.0" viewBox="0 0 36 36"><path fill="#269" d="M24 26.799v-2.566c2-1.348 4.08-3.779 4.703-6.896.186.103.206.17.413.17.991 0 1.709-1.287 1.709-2.873 0-1.562-.823-2.827-1.794-2.865.187-.674.293-1.577.293-2.735C29.324 5.168 26 .527 18.541.527c-6.629 0-10.777 4.641-10.777 8.507 0 1.123.069 2.043.188 2.755-.911.137-1.629 1.352-1.629 2.845 0 1.587.804 2.873 1.796 2.873.206 0 .025-.067.209-.17C8.952 20.453 11 22.885 13 24.232v2.414c-5 .645-12 3.437-12 6.23v1.061C1 35 2.076 35 3.137 35h29.725C33.924 35 35 35 35 33.938v-1.061c0-2.615-6-5.225-11-6.078z"/></svg>
+<text x="130" y="193.925" text-anchor="middle" font-size="26.25" fill="#0f172a" font-weight="700">ログイン画面</text>
+<rect x="500" y="92" width="240" height="96" rx="16" fill="#ffedd5" stroke="#f97316" stroke-width="3.5"/>
+<text x="620" y="147.438" text-anchor="middle" font-size="21.25" fill="#c2410c" font-weight="600"><tspan x="620" dy="0">Cognito（Floci）</tspan><tspan x="620" dy="30.8125">ユーザープール</tspan></text>
+<path d="M217.90 112.00 L289.38 112.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M422.51 112.00 L494.00 112.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="355.95" y="119.438" text-anchor="middle" font-size="21.25" fill="#0f172a" font-weight="600">InitiateAuth</text>
+<path d="M494.00 168.00 L452.35 168.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M259.55 168.00 L217.90 168.00" fill="none" stroke="#94a3b8" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aRsub)"/>
+<text x="355.95" y="175.438" text-anchor="middle" font-size="21.25" fill="#475569" font-weight="600">アクセストークン</text>
+</svg>

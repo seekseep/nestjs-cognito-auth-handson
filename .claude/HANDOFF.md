@@ -19,24 +19,22 @@
 
 ## 決まっている設計
 
-- 章と節（`.claude/AGENTS.md` とイシュー #1 も参照）
-  - 01 準備: 01-tools（Node.js・Podman）
-  - 02 エンドポイントを作る: 01-hello-world（手元の Node.js）/ 02-podman（Dockerfile・compose）/ 03-create-note / 04-list-notes（`useStaticAssets` と一覧の画面 `public/notes.html`）/ 05-delete-note
-  - 03 認証する: 01-sign-up（Floci・setup-cognito.mjs・`GET /config`・cognito.js・signup.html）/ 02-log-in（login.html）/
-    03-require-token（verify-token.ts、`POST /notes` だけ 401）/ 04-create-with-token（本文だけ。curl でトークンを付ける）
-  - 04 認可する: 01-owner-only（`ownerId` ＝ `sub`、削除で 403）/ 02-delete-fails（本文だけ。bob で 403）/ 03-delete-succeeds（本文だけ。alice で 204）
-  - 05 整理する: 01-auth-middleware（`AuthMiddleware` を `forRoutes({ path: 'notes', method: POST }, { path: 'notes/:id', method: DELETE })`、`@Req()` で `req.user.sub`）
+- 章と節（`.claude/AGENTS.md` とイシュー #1 も参照）。2026-11-21 に A の構成と書き方にそろえて作り直した
+  - 01 準備: 01-environment / 02 Hello World: 01-nestjs・02-podman（api と web の nginx）/ 03 設計する: 01-notes-api・02-authentication・03-authorization（表と図だけ）
+  - 04 実装する: 01-sqlite・02-create・03-list・04-delete（コントローラーに直接）/ 05 認証する: 01-sign-up・02-log-in・03-require-token・04-create-with-token
+  - 06 認可する: 01-owner-only・02-delete-fails・03-delete-succeeds / 07 整理する: 01-database-provider・02-service・03-auth-middleware
 - compose のプロジェクト名は、どの節も `api`（フォルダ名）。Floci の設定はどの節も同じなので、節を移っても Floci は作り直されない
 - `docker-compose` は既定で `Dockerfile` を探すので、`Containerfile` ではなく `Dockerfile`・`.dockerignore` にした
 
 ## 確かめ方のメモ
 
 - 各節の `api/` で `npm install` → `npm run build`（02-01 は手元で起動して `Hello World!`）
-- 02 章: `podman compose up -d --build --wait` のあと curl で作成 201・一覧・削除 204・無い id で 404
-- 03 章から: `podman compose up -d --build --wait` → `node scripts/setup-cognito.mjs` → `podman compose up -d --wait`。
+- 02-02 から: `podman compose up -d --build --wait`。画面は http://localhost:3000（nginx）、API は http://localhost:3001
+- 04 章: curl で作成 201・一覧 200（と一覧の画面）・削除 204・無い id で 404
+- 05 章から: `podman compose up -d --build --wait` → `node scripts/setup-cognito.mjs` → `podman compose up -d --wait`。
   Playwright で signup.html（確認コードは `/_aws/ses` から）・login.html を操作して alice・bob のトークンを取り、
-  トークン無し POST 401・でたらめ 401・alice POST 201・トークン無し GET 200・bob DELETE 403・トークン無し DELETE 401・alice DELETE 204
-- ポート 3000 と 4566 を使う。CORS は `http://localhost:3000` だけを許しているので、確かめるときもポート 3000 で動かす
+  トークン無し POST 401・alice POST 201・bob DELETE 403（06 章から）・トークン無し DELETE 401（06 章から）・alice DELETE 204・2 回目 404
+- ポート 3000（画面）・3001（API）・4566（Floci）を使う。CORS は `http://localhost:3000` だけを許しているので、ずらして確かめるときは、compose のポート・`src/main.ts` の `origin`・Floci の `FLOCI_SECURITY_EXTRA_CORS_ALLOWED_ORIGINS`・`public/lib/api.js`・`scripts/setup-cognito.mjs` の URL をそろえてずらす
 
 ## 残っていること
 

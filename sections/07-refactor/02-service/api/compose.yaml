@@ -1,0 +1,47 @@
+services:
+  api:
+    # このフォルダの Dockerfile からイメージを作る
+    build: .
+    ports:
+      # ほかのマシンから届かないよう、ループバックにだけ公開する
+      - "127.0.0.1:3001:3000"
+    environment:
+      # SQLite のファイルを、ボリューム（db）の中に置く
+      DB_PATH: /data/notes.db
+    volumes:
+      - db:/data
+    # scripts/setup-cognito.mjs が書いた、ユーザープール ID とクライアント ID
+    env_file:
+      - path: .env
+        required: false
+
+  web:
+    # 画面（public/）を配るだけの静的サーバー
+    image: docker.io/library/nginx:1.27-alpine
+    ports:
+      # ほかのマシンから届かないよう、ループバックにだけ公開する
+      - "127.0.0.1:3000:80"
+    volumes:
+      - ./public:/usr/share/nginx/html:ro
+
+  # Cognito のエミュレーター
+  floci:
+    image: docker.io/floci/floci:2.4.0
+    ports:
+      # ほかのマシンから届かないよう、ループバックにだけ公開する（Floci は認証なしで API を受け付ける）
+      - "127.0.0.1:4566:4566"
+    environment:
+      # トークンの発行元（iss）を、API のコンテナから届く http://floci:4566 にする
+      FLOCI_BASE_URL: http://floci:4566
+      # 画面（http://localhost:3000）から Cognito の API を直接呼べるようにする
+      FLOCI_SECURITY_EXTRA_CORS_ALLOWED_ORIGINS: http://localhost:3000
+    healthcheck:
+      # 起動が終わったか（/_floci/health が 200 を返すか）を確かめる
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/4566 && printf 'GET /_floci/health HTTP/1.0\\r\\n\\r\\n' >&3 && read -r status <&3 && [[ $$status == *' 200 '* ]]"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  # SQLite のファイルを置く場所。コンテナを作り直しても残る
+  db:
