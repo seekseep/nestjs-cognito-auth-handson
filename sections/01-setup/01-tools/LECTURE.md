@@ -7,7 +7,7 @@ title: 道具をそろえる
 
 ![01 章 道具をそろえる](./images/00-thumbnail.svg)
 
-このハンズオンで使うのは、**Node.js 26** と **Podman** です。API と、Amazon Cognito のエミュレーター **Floci** を Podman のコンテナで動かすので、AWS のアカウントは要りません。エディタは使い慣れたもので進めてください。
+このハンズオンで使うのは、**Node.js 26**・**Podman**・エディタの **VS Code** です。API と、Amazon Cognito のエミュレーター **Floci** を Podman のコンテナで動かすので、AWS のアカウントは要りません。
 
 ## お使いの OS を選ぶ
 
@@ -70,6 +70,36 @@ v26.13.1
 ```
 
 `v26.` から始まっていれば大丈夫です（細かい番号は入れた日によって違います）。npm は Node.js といっしょに入るパッケージマネージャーです。
+
+## VS Code を入れる
+
+エディタには [Visual Studio Code](https://code.visualstudio.com/)（VS Code）を使います。[ダウンロードのページ](https://code.visualstudio.com/download) から、お使いの OS のものを入れます。
+
+:::::platform
+::::macos
+`.zip` を開くとできる `Visual Studio Code.app` を「アプリケーション」フォルダに移します。
+
+VS Code を開き、コマンドパレット（Cmd + Shift + P）で **Shell Command: Install 'code' command in PATH** を実行すると、ターミナルから `code .` でフォルダを開けるようになります。
+::::
+::::windows
+ユーザー インストーラー（User Installer）をダウンロードして開き、画面の案内に従って進めます。「PATH への追加」にチェックが入っていれば、PowerShell 7 から `code .` でフォルダを開けます。
+::::
+::::linux
+Ubuntu・Debian なら `.deb` をダウンロードして入れます。
+
+```bash
+sudo apt install ./<ダウンロードしたファイル>.deb
+```
+::::
+:::::
+
+ターミナルを開き直して確かめます。
+
+```bash
+code --version
+```
+
+バージョンの番号が出れば、ターミナルから `code` を使えます。VS Code の中では、`` Ctrl + ` ``（バッククォート）でターミナルが開きます。
 
 ## Podman を入れる
 
@@ -134,5 +164,6 @@ Docker Compose version 5.8.0
 
 - [Node.js: ダウンロード](https://nodejs.org/ja/download) … Node.js の入れ方
 - [Microsoft Learn: Windows への PowerShell のインストール](https://learn.microsoft.com/ja-jp/powershell/scripting/install/installing-powershell-on-windows) … winget で PowerShell 7 を入れる方法
+- [Visual Studio Code: Setup Overview](https://code.visualstudio.com/docs/setup/setup-overview) … OS ごとの入れ方
 - [Podman: Installation](https://podman.io/docs/installation) … OS ごとの Podman の入れ方と `podman machine`
 - [Podman: podman-compose](https://docs.podman.io/en/latest/markdown/podman-compose.1.html) … `podman compose` が docker-compose に処理を渡すこと

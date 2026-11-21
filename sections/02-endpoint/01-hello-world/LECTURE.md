@@ -15,10 +15,16 @@ NestJS のプロジェクトを作り、手元の Node.js で動かして、`Hel
 
 ```bash
 npx @nestjs/cli@12 new api --package-manager npm --skip-git --skip-tests --type esm --no-observe --skip-skills
-cd api
 ```
 
 `--skip-git` で Git のリポジトリを作らず、`--skip-tests` でテストのファイルを作らず、`--type esm` でモジュールの方式を ESM にし、`--no-observe` で監視サービス（NestJS Observe）の設定を、`--skip-skills` でコーディングエージェント向けのファイルを飛ばします。`--type`・`--no-observe`・`--skip-skills` は、付けないと作るときに聞かれます。
+
+以降のコマンドは、`api/` の中で実行します。VS Code で `api/` を開いておきます。
+
+```bash
+cd api
+code .
+```
 
 このハンズオンでは使わない、テスト・lint・整形のファイルとライブラリを消します。
 
