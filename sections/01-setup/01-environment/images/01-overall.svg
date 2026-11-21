@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="960" height="520" fill="#ffffff"/>
+<svg x="60.0" y="212.1" width="80.0" height="80.0" viewBox="0 0 36 36"><path fill="#3B88C3" d="M18 0C8.059 0 0 8.059 0 18s8.059 18 18 18 18-8.059 18-18S27.941 0 18 0zM2.05 19h3.983c.092 2.506.522 4.871 1.229 7H4.158c-1.207-2.083-1.95-4.459-2.108-7zM19 8V2.081c2.747.436 5.162 2.655 6.799 5.919H19zm7.651 2c.754 2.083 1.219 4.46 1.317 7H19v-7h7.651zM17 2.081V8h-6.799C11.837 4.736 14.253 2.517 17 2.081zM17 10v7H8.032c.098-2.54.563-4.917 1.317-7H17zM6.034 17H2.05c.158-2.54.901-4.917 2.107-7h3.104c-.705 2.129-1.135 4.495-1.227 7zm1.998 2H17v7H9.349c-.754-2.083-1.219-4.459-1.317-7zM17 28v5.919c-2.747-.437-5.163-2.655-6.799-5.919H17zm2 5.919V28h6.8c-1.637 3.264-4.053 5.482-6.8 5.919zM19 26v-7h8.969c-.099 2.541-.563 4.917-1.317 7H19zm10.967-7h3.982c-.157 2.541-.9 4.917-2.107 7h-3.104c.706-2.129 1.136-4.494 1.229-7zm0-2c-.093-2.505-.523-4.871-1.229-7h3.104c1.207 2.083 1.95 4.46 2.107 7h-3.982zm.512-9h-2.503c-.717-1.604-1.606-3.015-2.619-4.199C27.346 4.833 29.089 6.267 30.479 8zM10.643 3.801C9.629 4.985 8.74 6.396 8.023 8H5.521c1.39-1.733 3.133-3.166 5.122-4.199zM5.521 28h2.503c.716 1.604 1.605 3.015 2.619 4.198C8.654 31.166 6.911 29.733 5.521 28zm19.836 4.198c1.014-1.184 1.902-2.594 2.619-4.198h2.503c-1.39 1.733-3.133 3.166-5.122 4.198z"/></svg>
+<text x="100" y="324.52" text-anchor="middle" font-size="28.0" fill="#0f172a" font-weight="700">ブラウザ</text>
+<rect x="240" y="30" width="700" height="470" rx="16" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2.0" stroke-dasharray="7 6"/>
+<text x="264" y="66" text-anchor="start" font-size="28.0" fill="#0f172a" font-weight="700">Podman（compose.yaml）</text>
+<rect x="360" y="85" width="220" height="90" rx="16" fill="#dcfce7" stroke="#22c55e" stroke-width="3.5"/>
+<text x="470" y="137.933" text-anchor="middle" font-size="22.666666666666664" fill="#15803d" font-weight="600"><tspan x="470" dy="0">web（nginx）</tspan><tspan x="470" dy="32.8667">画面</tspan></text>
+<rect x="360" y="225" width="220" height="90" rx="16" fill="#ffedd5" stroke="#f97316" stroke-width="3.5"/>
+<text x="470" y="277.933" text-anchor="middle" font-size="22.666666666666664" fill="#c2410c" font-weight="600"><tspan x="470" dy="0">Floci</tspan><tspan x="470" dy="32.8667">Cognito</tspan></text>
+<rect x="360" y="365" width="220" height="90" rx="16" fill="#dbeafe" stroke="#3b82f6" stroke-width="3.5"/>
+<text x="470" y="417.933" text-anchor="middle" font-size="22.666666666666664" fill="#1d4ed8" font-weight="600"><tspan x="470" dy="0">api（NestJS）</tspan><tspan x="470" dy="32.8667">ノートの API</tspan></text>
+<path d="M720.0 376.0 A80.0 16.0 0 0 0 880.0 376.0 L880.0 444.0 A80.0 16.0 0 0 1 720.0 444.0 Z" fill="#ccfbf1" stroke="#14b8a6" stroke-width="3.5"/>
+<ellipse cx="800.0" cy="376.0" rx="80.0" ry="16.0" fill="#ccfbf1" stroke="#14b8a6" stroke-width="2.5"/>
+<text x="800" y="417.933" text-anchor="middle" font-size="22.666666666666664" fill="#0f766e" font-weight="600"><tspan x="800" dy="0">SQLite</tspan><tspan x="800" dy="32.8667">notes</tspan></text>
+<path d="M163.85 245.84 L229.47 221.01" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M293.18 196.91 L358.80 172.08" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="261.325" y="216.892" text-anchor="middle" font-size="22.666666666666664" fill="#0f172a" font-weight="600">画面</text>
+<path d="M164.24 270.00 L203.97 270.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M314.27 270.00 L354.00 270.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="259.12" y="277.933" text-anchor="middle" font-size="22.666666666666664" fill="#0f172a" font-weight="600">ログイン</text>
+<path d="M163.85 294.16 L188.23 303.38" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M334.42 358.70 L358.80 367.92" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="261.325" y="338.975" text-anchor="middle" font-size="22.666666666666664" fill="#0f172a" font-weight="600">トークン付き</text>
+<path d="M470.00 359.00 L470.00 321.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="450.667" y="347.933" text-anchor="middle" font-size="22.666666666666664" fill="#0f172a" font-weight="600">鍵</text>
+<path d="M586.00 410.00 L714.00 410.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="650" y="398.6" text-anchor="middle" font-size="22.666666666666664" fill="#0f172a" font-weight="600">読み書き</text>
+</svg>

@@ -7,7 +7,7 @@ title: 準備
 
 ![01 章 準備](./images/00-thumbnail.svg)
 
-このハンズオンで使うのは、**Node.js 26**・**Podman**・エディタの **VS Code** です。API と、Amazon Cognito のエミュレーター **Floci** を Podman のコンテナで動かすので、AWS のアカウントは要りません。
+このハンズオンで使うのは、**Node.js 26**・**Podman**・エディタの **VS Code** です。API・画面を配る nginx・Amazon Cognito のエミュレーター **Floci** を Podman のコンテナで動かすので、AWS のアカウントは要りません。
 
 ## お使いの OS を選ぶ
 
@@ -103,7 +103,7 @@ code --version
 
 ## Podman を入れる
 
-Podman は、コンテナを動かす道具です。02 章で API を、03 章から Cognito のエミュレーター Floci も、コンテナで動かします。あわせて、`podman compose` が使う **docker-compose** も入れます。
+Podman は、コンテナを動かす道具です。02 章から API と画面を、05 章から Cognito のエミュレーター Floci も、コンテナで動かします。あわせて、`podman compose` が使う **docker-compose** も入れます。
 
 :::::platform
 ::::macos

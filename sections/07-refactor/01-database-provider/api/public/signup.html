@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>サインアップ</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <h1>サインアップ</h1>
+
+  <form id="sign-up">
+    <label>メールアドレス <input name="email" type="email" required></label>
+    <label>パスワード <input name="password" type="password" required></label>
+    <button>サインアップ</button>
+  </form>
+
+  <form id="confirm" hidden>
+    <label>確認コード <input name="code" required></label>
+    <button>確認する</button>
+  </form>
+
+  <p id="message" class="message"></p>
+
+  <script type="module" src="./signup.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="400" viewBox="0 0 960 400" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic','Segoe UI',sans-serif">
+<defs><marker id="aR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#475569"/></marker><marker id="aRsub" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#94a3b8"/></marker></defs>
+<rect x="0" y="0" width="960" height="400" fill="#ffffff"/>
+<svg x="70.0" y="92.1" width="80.0" height="80.0" viewBox="0 0 36 36"><path fill="#C1694F" d="M32.614 3.414C28.31-.89 21.332-.89 17.027 3.414c-3.391 3.392-4.098 8.439-2.144 12.535l-3.916 3.915c-.64.641-.841 1.543-.625 2.359l-1.973 1.972c-.479-.48-1.252-.48-1.731 0l-1.731 1.732c-.479.479-.479 1.253 0 1.732l-.867.864c-.479-.478-1.253-.478-1.731 0l-.866.867c-.479.479-.479 1.253 0 1.732.015.016.036.02.051.033-.794 1.189-.668 2.812.382 3.863 1.195 1.195 3.134 1.195 4.329 0L20.08 21.144c4.097 1.955 9.144 1.247 12.535-2.146 4.302-4.302 4.302-11.28-.001-15.584zm-1.731 5.195c-.957.956-2.509.956-3.464 0-.956-.956-.956-2.507 0-3.464.955-.956 2.507-.956 3.464 0 .956.957.956 2.508 0 3.464z"/></svg>
+<text x="110" y="204.52" text-anchor="middle" font-size="28.0" fill="#0f172a" font-weight="700">curl</text>
+<rect x="360" y="102" width="240" height="96" rx="16" fill="#dbeafe" stroke="#3b82f6" stroke-width="3.5"/>
+<text x="480" y="157.933" text-anchor="middle" font-size="22.666666666666664" fill="#1d4ed8" font-weight="600"><tspan x="480" dy="0">API</tspan><tspan x="480" dy="32.8667">verifyToken()</tspan></text>
+<rect x="740" y="102" width="200" height="96" rx="16" fill="#ffedd5" stroke="#f97316" stroke-width="3.5"/>
+<text x="840" y="157.933" text-anchor="middle" font-size="22.666666666666664" fill="#c2410c" font-weight="600"><tspan x="840" dy="0">Floci</tspan><tspan x="840" dy="32.8667">公開鍵（JWKS）</tspan></text>
+<rect x="290" y="290" width="140" height="60" rx="16" fill="#fee2e2" stroke="#ef4444" stroke-width="3.5"/>
+<text x="360" y="327.933" text-anchor="middle" font-size="22.666666666666664" fill="#b91c1c" font-weight="600">401</text>
+<rect x="530" y="290" width="140" height="60" rx="16" fill="#dcfce7" stroke="#22c55e" stroke-width="3.5"/>
+<text x="600" y="327.933" text-anchor="middle" font-size="22.666666666666664" fill="#15803d" font-weight="600">201</text>
+<path d="M156.00 150.00 L176.99 150.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M333.01 150.00 L354.00 150.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="255" y="157.933" text-anchor="middle" font-size="22.666666666666664" fill="#0f172a" font-weight="600">POST /notes</text>
+<path d="M606.00 150.00 L734.00 150.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="670" y="138.6" text-anchor="middle" font-size="22.666666666666664" fill="#0f172a" font-weight="600">鍵を取る</text>
+<path d="M442.66 202.90 L384.64 285.10" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="397.852" y="240.784" text-anchor="middle" font-size="22.666666666666664" fill="#0f172a" font-weight="600">無い・正しくない</text>
+<path d="M517.34 202.90 L524.64 213.24" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M568.07 274.76 L575.36 285.10" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="546.353" y="251.933" text-anchor="middle" font-size="22.666666666666664" fill="#0f172a" font-weight="600">正しい</text>
+</svg>
