@@ -11,6 +11,10 @@
  *   ::diff[説明]{file="..."}            … 最初のブロックの上に「どこに書くか」の説明を出す。
  *   ::diff{file="..." from="<sec>/<lec>"}  … 比べる相手の節を指定する（既定は直前の節）。
  *   ::diff{file="..." fromFile="..."}   … 前の節でのファイル名が違うとき（移動・改名）。
+ *   ::diff{file="..." base="generated"} … この節の generated/<file>（本文のコマンド（nest g・npm install など）が
+ *       作った・書き換えた直後のファイル）と比べる。コマンドのあとに手で書く分だけが差分になる。
+ *   ::diff{file="..." by="command"}    … 本文のコマンドが作った・書き換えた結果を見せるだけの差分。
+ *       見出しを「`...` が作られる／が変わる／が消える」にして、手で書く手順と見分けられるようにする。
  *   ::diff{file="..." context="5"}      … 変更の前後に何行出すか（既定 3）。
  *
  *   ::tree
@@ -100,9 +104,12 @@ export async function buildDiffBlock({ lectureRel, attrs, label, where, headingL
   }
   const baseRel = baseLectureOf(lectureRel, attrs.from);
   const current = await readOrNull(path.join(ROOT, ...lectureRel.split('/'), ...file.split('/')));
-  const previous = baseRel
-    ? await readOrNull(path.join(ROOT, ...baseRel.split('/'), ...String(attrs.fromFile ?? file).split('/')))
-    : null;
+  const previous =
+    attrs.base === 'generated'
+      ? await readOrNull(path.join(ROOT, ...lectureRel.split('/'), 'generated', ...file.split('/')))
+      : baseRel
+        ? await readOrNull(path.join(ROOT, ...baseRel.split('/'), ...String(attrs.fromFile ?? file).split('/')))
+        : null;
   if (current === null && previous === null) {
     console.warn(`[sentinels] ::diff file not found: ${file} in ${where} (skipped)`);
     return null;
@@ -133,8 +140,14 @@ export async function buildDiffBlock({ lectureRel, attrs, label, where, headingL
       ].join('\n'),
     );
   });
-  const action = previous === null ? '作成' : current === null ? '削除' : '変更';
-  const heading = `${'#'.repeat(headingLevel)} \`${file}\` を${action}する`;
+  const byCommand = attrs.by === 'command';
+  const action =
+    previous === null
+      ? byCommand ? 'が作られる' : 'を作成する'
+      : current === null
+        ? byCommand ? 'が消える' : 'を削除する'
+        : byCommand ? 'が変わる' : 'を変更する';
+  const heading = `${'#'.repeat(headingLevel)} \`${file}\` ${action}`;
   return [heading, ...blocks].join('\n\n');
 }
 
