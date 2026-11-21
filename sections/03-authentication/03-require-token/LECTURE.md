@@ -23,7 +23,7 @@ Authorization: Bearer eyJhbGciOi...
 npm install aws-jwt-verify
 ```
 
-::diff{file="api/package.json"}
+::diff{file="api/package.json" by="command"}
 
 ## トークンを確かめる関数を作る
 
