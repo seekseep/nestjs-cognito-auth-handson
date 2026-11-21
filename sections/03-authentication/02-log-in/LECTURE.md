@@ -64,7 +64,7 @@ podman compose up -d --build --wait
 
 :::faq
 
-### `NotAuthorizedException: Incorrect username or password.` と出る
+### `NotAuthorizedException: Incorrect username or password` と出る
 
 メールアドレスかパスワードが違います。Floci を起動し直したときは、ユーザーも消えているので、サインアップからやり直してください。
 
