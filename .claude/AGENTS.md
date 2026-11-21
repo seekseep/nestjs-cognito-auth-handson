@@ -27,14 +27,14 @@ handson-builder スキルの骨格（`sections/` ＋ Starlight の `site/` ＋ G
 | **節** | `sections/<NN-section>/<NN-lecture>/`。増減してよい | `05-authentication/03-require-token/` |
 
 - 章立て: 01 準備 / 02 Hello World（NestJS・Podman で API と nginx）/ 03 設計する（ノートの API・認証・認可。OpenAPI は使わず表と図だけ。コードは書かない）/
-  04 実装する（SQLite と作成・一覧・削除。コントローラーに直接書く）/ 05 認証する / 06 認可する / 07 整理する（DatabaseModule → サービス → 認証の middleware。1 節で 1 つだけ分け、動きは変えない）
+  04 実装する（SQLite と作成・一覧・削除。コントローラーに直接書く）/ 05 認証する / 06 認可する（認可の種類（本文だけ）→ 所有 → 役割（Cognito のグループ admin）→ 所属（SQLite の teams・team_members））/ 07 整理する（DatabaseModule → サービス → 認証の middleware。1 節で 1 つだけ分け、動きは変えない。認可はノートを読んでから決めるのでサービスに置き、Guard にはしない）
 - 節のディレクトリは **その節を終えた時点のプロジェクト** を丸ごと持つ（`api/`）
 - 次の節は、前の節のディレクトリをコピーして差分を足して作る（`tools/copy-lecture.sh <前の節> <次の節>`）
 - 本文は `LECTURE.md`（`docs: true`）。節の直下の `README.md` は ZIP を展開した人向けの起動方法
 - 説明図は `images/` に置く。`00-thumbnail.svg` は `tools/thumbnail.mjs` の THUMBNAILS に足して `node tools/thumbnail.mjs`。
   ほかの図は genfig（`images/NN-xxx.py` → `.svg`）で作り、`xmllint --noout` を通し、描き出して目で確かめる。`text` のコードブロックで図（矢印・枠）を書かない
 - 章の直下には README を置かない。章のラベルは `site/astro.config.mjs` の sidebar に書く
-- 準備の節・設計の節（03 章）・コードを変えずに curl で確かめるだけの節（06-02・06-03）は、プロジェクトを持たない（本文だけ）
+- 準備の節・設計の節（03 章・06-01）は、プロジェクトを持たない（本文だけ）
 
 ## プロジェクトの形
 
@@ -65,6 +65,7 @@ sections/<sec>/<lec>/
   `.env`（`COGNITO_USER_POOL_ID`・`COGNITO_CLIENT_ID`）と `public/config.json`（`issuer`・`clientId`）を書く。画面は `public/lib/config.js` で `config.json` を読む。
   書いたあと `podman compose up -d --wait` で API を作り直す（`env_file` を読ませる）
 - ユーザーは画面でサインアップする（`SignUp` → `ConfirmSignUp`）。確認コードは Floci の SES の受信箱 `http://localhost:4566/_aws/ses` で読む
+- 06-03 から、`setup-cognito.mjs` がグループ `admin` と `admin@example.com`（`Passw0rd!`）を作る。06-04 から、チームの所属は `podman compose exec api node scripts/team-member.mjs add|remove <メール> <チーム>`（Cognito でメールから `sub` を引き、SQLite の `team_members` に書く）
 - Floci は `FLOCI_BASE_URL=http://floci:4566` にして、トークンの `iss` を API のコンテナから届く `http://floci:4566/<プール ID>` にしている
 - トークンの検証は aws-jwt-verify の `JwtVerifier`（`CognitoJwtVerifier` は発行元が amazonaws.com に固定なので使えない）。
   `jwksUri` は `iss` の下の `/.well-known/jwks.json`、`token_use`・`client_id` は `customJwtCheck`。既定の JWKS の取得は https だけなので、

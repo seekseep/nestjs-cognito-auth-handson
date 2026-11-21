@@ -19,7 +19,7 @@ export class NotesController {
   @Post()
   create(
     @Req() req: AuthenticatedRequest,
-    @Body() input: { title: string; body?: string },
+    @Body() input: { title: string; body?: string; teamId?: string },
   ): Note {
     return this.notesService.create(input, req.user.sub);
   }
@@ -32,6 +32,6 @@ export class NotesController {
   @Delete(':id')
   @HttpCode(204)
   remove(@Req() req: AuthenticatedRequest, @Param('id') id: string): void {
-    this.notesService.remove(id, req.user.sub);
+    this.notesService.remove(id, req.user);
   }
 }

@@ -36,6 +36,29 @@ const { UserPoolClient } = await cognito('CreateUserPoolClient', {
   ExplicitAuthFlows: ['ALLOW_USER_PASSWORD_AUTH', 'ALLOW_REFRESH_TOKEN_AUTH'],
 });
 
+// 管理者のグループ（admin）と、そこに入れる管理者のユーザー（admin@example.com）
+await cognito('CreateGroup', { UserPoolId: UserPool.Id, GroupName: 'admin' });
+await cognito('AdminCreateUser', {
+  UserPoolId: UserPool.Id,
+  Username: 'admin@example.com',
+  UserAttributes: [
+    { Name: 'email', Value: 'admin@example.com' },
+    { Name: 'email_verified', Value: 'true' },
+  ],
+  MessageAction: 'SUPPRESS',
+});
+await cognito('AdminSetUserPassword', {
+  UserPoolId: UserPool.Id,
+  Username: 'admin@example.com',
+  Password: 'Passw0rd!',
+  Permanent: true,
+});
+await cognito('AdminAddUserToGroup', {
+  UserPoolId: UserPool.Id,
+  Username: 'admin@example.com',
+  GroupName: 'admin',
+});
+
 // API が読む設定（.env）
 await writeFile(
   '.env',
@@ -47,5 +70,5 @@ await writeFile(
   `${JSON.stringify({ issuer: `${endpoint}/${UserPool.Id}`, clientId: UserPoolClient.ClientId })}\n`,
 );
 console.log(
-  `ユーザープール ${UserPool.Id} とクライアント ${UserPoolClient.ClientId} を作り、.env と public/config.json に書きました`,
+  `ユーザープール ${UserPool.Id} とクライアント ${UserPoolClient.ClientId}、admin グループと admin@example.com を作り、.env と public/config.json に書きました`,
 );
