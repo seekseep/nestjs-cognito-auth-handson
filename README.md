@@ -48,11 +48,12 @@ curl
 
 ## 関連するハンズオン
 
-NestJS のハンズオンは 3 本に分かれていて、どれから始めても進められます。3 本のつながりは [関連するハンズオン](./sections/RELATED.md) にまとめています。
+NestJS のハンズオンは 3 本に分かれていて、どれから始めても進められます。Cognito と Entra ID のハンズオンも関連しています。つながりは [関連するハンズオン](./sections/RELATED.md) にまとめています。
 
 - [NestJS で作る REST API](https://github.com/seekseep/nestjs-rest-api-handson)
 - NestJS と Cognito で認証と認可（このハンズオン）
 - [NestJS のテスト](https://github.com/seekseep/nestjs-testing-handson)
+- [Cognito と Entra ID をローカルで練習する](https://github.com/seekseep/cognito-entra-id-emulation-handson)
 
 ## ドキュメントサイト
 
