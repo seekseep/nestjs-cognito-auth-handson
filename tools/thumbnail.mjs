@@ -42,7 +42,7 @@ const TOOL_COLORS = {
 };
 
 const THUMBNAILS = [
-  ['01-setup/01-tools', '01', '道具をそろえる', ['Node.js', 'Podman']],
+  ['01-setup/01-environment', '01', '準備', ['Node.js', 'Podman']],
   ['02-endpoint/01-hello-world', '02', 'Node.js だけで Hello World', ['NestJS']],
   ['02-endpoint/02-podman', '02', 'Podman で動かす', ['Podman', 'compose']],
   ['02-endpoint/03-create-note', '02', 'ノートの作成', ['NestJS', 'POST']],
