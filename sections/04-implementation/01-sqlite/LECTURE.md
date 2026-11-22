@@ -35,10 +35,8 @@ Node.js 26 のドキュメントでは、このクラスの名前は `Database` 
 ノートの API を受け付けるコントローラーを作ります。
 
 ```bash
-npx nest g controller notes --no-spec
+npx nest g controller notes
 ```
-
-`--no-spec` で、テストのひな形（`*.spec.ts`）を作らないようにします。
 
 ```text
 CREATE src/notes/notes.controller.ts (99 bytes)
@@ -77,7 +75,7 @@ podman compose exec api node -e "const { DatabaseSync } = require('node:sqlite')
 
 - [Node.js: SQLite](https://nodejs.org/docs/latest-v26.x/api/sqlite.html) … `DatabaseSync`・`exec()`・`prepare()`、安定性（Release candidate）
 - [SQLite: STRICT Tables](https://www.sqlite.org/stricttables.html) … `STRICT` の意味
-- [NestJS: CLI command reference](https://docs.nestjs.com/cli/usages) … `nest g controller` と `--no-spec`
+- [NestJS: CLI command reference](https://docs.nestjs.com/cli/usages) … `nest g controller`
 - [Docker: Compose file reference](https://docs.docker.com/reference/compose-file/services/) … `environment`・`volumes`
 - [Docker: docker compose exec](https://docs.docker.com/reference/cli/docker/compose/exec/) … 動いているコンテナでコマンドを実行する
 
