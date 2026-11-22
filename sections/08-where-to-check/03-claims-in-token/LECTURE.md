@@ -59,7 +59,7 @@ echo "PODMAN_SOCKET=$(podman info --format '{{.Host.RemoteSocket.Path}}' | sed '
 Lambda が所属を聞く、API の入口を作ります。
 
 ```bash
-npx nest g controller teams --no-spec
+npx nest g controller teams
 ```
 
 ```text
