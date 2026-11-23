@@ -60,7 +60,7 @@ sections/<sec>/<lec>/
 
 - 言語は **TypeScript**。NestJS 12（ESM。import の末尾は `.js`）。パッケージマネージャはレクチャー側が **npm**、サイトが pnpm
 - コマンドは、Podman・スクリプト・`zip`・`.env` への書き足しはルート、npm と Nest CLI は `apps/api/` で実行する（本文では `cd apps/api` → … → `cd ../..` の形で書く）
-- `apps/api/` は、`nest new --package-manager npm --skip-git --skip-tests --type esm --no-observe --skip-skills` が作ったものを何も消さずに使う
+- `apps/api/` は、`nest new api --skip-git` の質問に npm・observe は n・skills は none・ESM と答えて作ったもの（`nest new api --skip-git --package-manager npm --no-observe --skip-skills --type esm` と同じ。`--skip-tests` は付けないので `src/app.controller.spec.ts`・`test/app.e2e-spec.ts` もある）を何も消さずに使う。02-01 は質問に答える形で書き、1 行で作るコマンドを添える
   （`AGENTS.md`・`README.md`・oxlint・Prettier・Vitest の設定とパッケージ・`scripts` もそのまま。A と同じ）。`@nestjs/testing` があるので、`nest g controller`・`nest g service` には `--no-spec` を付ける
 - ポート: web（nginx、`apps/ui/` を配る）は `127.0.0.1:3000:80`、api は `127.0.0.1:3001:3000`、Floci は `127.0.0.1:4566`。
   API は `enableCors({ origin: 'http://localhost:3000' })`、Floci は `FLOCI_SECURITY_EXTRA_CORS_ALLOWED_ORIGINS=http://localhost:3000`
