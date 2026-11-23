@@ -18,7 +18,9 @@ title: データベースをプロバイダーに分ける
 ![データベースを開く処理が DatabaseModule の DatabaseSync に分かれ、NotesController に注入される](./images/02-structure.svg)
 
 ```bash
+cd apps/api
 npx nest g module database
+cd ../..
 ```
 
 ```text
@@ -28,16 +30,16 @@ UPDATE src/app.module.ts (413 bytes)
 
 `nest g module` は、`AppModule` の `imports` に `DatabaseModule` を足します。
 
-::diff{file="api/src/app.module.ts" by="command"}
+::diff{file="apps/api/src/app.module.ts" by="command"}
 
 `src/database.ts` を、できた `src/database/` フォルダに移します（中身は変えません）。
 
-::diff{file="api/src/database/database.module.ts" base="generated"}
+::diff{file="apps/api/src/database/database.module.ts" base="generated"}
 
 - `{ provide: DatabaseSync, useFactory: openDatabase }` … 「`DatabaseSync` を受け取りたいクラスには、`openDatabase()` が返したものを渡す」という登録です。NestJS は `openDatabase()` を 1 回だけ呼び、同じデータベースを使い回します
 - `exports: [DatabaseSync]` … `DatabaseModule` を読み込んだモジュール（ここでは `AppModule`）でも、`DatabaseSync` を受け取れるようにします
 
-::diff{file="api/src/notes/notes.controller.ts"}
+::diff{file="apps/api/src/notes/notes.controller.ts"}
 
 - `constructor(private readonly db: DatabaseSync)` … 引数の型を見て、NestJS が `DatabaseModule` で登録したデータベースを渡します（02 章の `AppService` と同じ依存性の注入です）
 

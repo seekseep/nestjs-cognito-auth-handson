@@ -17,53 +17,54 @@ title: Podman で動かす
 
 API のコンテナのもとになる **イメージ** の作り方を書きます。
 
-::diff{file="api/Dockerfile"}
+::diff{file="apps/api/Dockerfile"}
 
 - `npm ci` … `package-lock.json` のとおりにライブラリを入れます
 - `npm run build` … TypeScript を `dist/` の JavaScript にします。コンテナでは `node dist/main.js` で動かします
 
 手元の `node_modules`・`dist` はイメージに入れません。
 
-::diff{file="api/.dockerignore"}
+::diff{file="apps/api/.dockerignore"}
 
 ## 起動の仕方を書く
 
 `compose.yaml` に、どのコンテナをどう起動するかを書きます。
 
-::diff{file="api/compose.yaml"}
+::diff{file="compose.yaml"}
 
-- `api` … このフォルダの `Dockerfile` から作った API です。`127.0.0.1:3001:3000` は、自分のパソコンの 3001 番を、コンテナの 3000 番につなぐという意味です
-- `web` … `public/` の画面を配るだけの nginx です。`./public` を読み取り専用（`ro`）でコンテナに渡します
+- `api` … `apps/api/` の `Dockerfile` から作った API です。`127.0.0.1:3001:3000` は、自分のパソコンの 3001 番を、コンテナの 3000 番につなぐという意味です
+- `web` … `apps/ui/` の画面を配るだけの nginx です。`./apps/ui` を読み取り専用（`ro`）でコンテナに渡します
 
 ## 画面から API を呼べるようにする
 
-::diff{file="api/src/main.ts"}
+::diff{file="apps/api/src/main.ts"}
 
 - `enableCors({ origin: 'http://localhost:3000' })` … `http://localhost:3000` の画面からの呼び出しだけを許します
 
 ## 画面を作る
 
-画面は、HTML と、同じ名前の `.js` の組にします。画面どうしで使う部品は `public/lib/` に、見た目は `style.css` に置きます。
+画面は、HTML と、同じ名前の `.js` の組にします。画面どうしで使う部品は `apps/ui/lib/` に、見た目は `style.css` に置きます。
 
-::diff{file="api/public/lib/api.js"}
+::diff{file="apps/ui/lib/api.js"}
 
-::diff{file="api/public/index.html"}
+::diff{file="apps/ui/index.html"}
 
-::diff{file="api/public/index.js"}
+::diff{file="apps/ui/index.js"}
 
-::diff{file="api/public/style.css"}
+::diff{file="apps/ui/style.css"}
 
 ## 動作確認する
 
-前の節の `npm run start:dev` を動かしていたら、Ctrl + C で止めておきます。`api/` で起動します。
+前の節の `npm run start:dev` を動かしていたら、Ctrl + C で止めておきます。ここからは、Podman とスクリプトのコマンドはルート（`handson/`）で、npm と Nest CLI のコマンドは `apps/api/` で実行します。ルートに移って起動します。
 
 ```bash
+cd ../..
 podman compose up -d --build --wait
 ```
 
 ```text
- Container api-api-1  Healthy
- Container api-web-1  Healthy
+ Container handson-api-1  Healthy
+ Container handson-web-1  Healthy
 ```
 
 ブラウザで <http://localhost:3000> を開き、「API の返事: Hello World!」と出れば大丈夫です。API は 3001 番で直接呼べます。

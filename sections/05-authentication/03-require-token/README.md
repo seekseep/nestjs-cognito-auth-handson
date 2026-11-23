@@ -5,10 +5,11 @@
 ## 動かし方
 
 ```bash
-cd api
+cd apps/api
 npm install
+cd ../..
 podman compose up -d --build --wait
-node scripts/setup-cognito.mjs   # ユーザープールを作り、.env と public/config.json に書く
+node apps/api/scripts/setup-cognito.mjs   # ユーザープールを作り、.env と apps/ui/config.json に書く
 podman compose up -d --wait      # 画面は http://localhost:3000 、API は http://localhost:3001
 ```
 

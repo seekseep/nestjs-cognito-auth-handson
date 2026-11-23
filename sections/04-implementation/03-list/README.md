@@ -5,7 +5,8 @@
 ## 動かし方
 
 ```bash
-cd api
+cd apps/api
 npm install
+cd ../..
 podman compose up -d --build --wait   # 画面は http://localhost:3000 、API は http://localhost:3001
 ```

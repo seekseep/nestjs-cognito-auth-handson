@@ -1,6 +1,6 @@
 """02-02「Podman で動かす」の図。
 
-ブラウザは web（nginx）から画面（public/）を受け取り、画面の JavaScript が api（NestJS）の GET / を呼ぶ。
+ブラウザは web（nginx）から画面（apps/ui/）を受け取り、画面の JavaScript が api（NestJS）の GET / を呼ぶ。
 スキーマ: CONTAINER（Podman の compose）+ SOURCE-PATH-GOAL（2 本の取得）。
 """
 
@@ -24,7 +24,7 @@ web = c.node(560, 140, "web（nginx）\n127.0.0.1:3000", shape="square",
 api = c.node(560, 280, "api（NestJS）\n127.0.0.1:3001", shape="square",
              color="blue", w=250, h=90, label_scale="label")
 
-c.link(browser, web, label="画面（public/）", offset=0)
+c.link(browser, web, label="画面（apps/ui/）", offset=0)
 c.link(browser, api, label="GET /", offset=0)
 
 c.save("01-containers.svg")

@@ -9,7 +9,7 @@ title: トークンを付けて作る
 
 アクセストークンを付けてノートを作ります。作ったノートの `ownerId` には、トークンの `sub`（ユーザーの ID）を入れます。
 
-::diff{file="api/src/notes/notes.controller.ts"}
+::diff{file="apps/api/src/notes/notes.controller.ts"}
 
 - `const user = await verifyToken(authorization)` … 正しいトークンなら、トークンの中身が返ります
 - `ownerId: user.sub` … 作った人を、ノートに入れます
@@ -52,6 +52,6 @@ curl -i -X POST http://localhost:3001/notes -H 'Authorization: Bearer <アクセ
 
 ### トークンを付けても `401` で `Invalid token` と出る
 
-トークンの期限が切れているか、Floci を起動し直したあとの古いトークンです。ログインし直して、新しいトークンで送ってください。Floci を起動し直したときは、`node scripts/setup-cognito.mjs` とサインアップからやり直します。
+トークンの期限が切れているか、Floci を起動し直したあとの古いトークンです。ログインし直して、新しいトークンで送ってください。Floci を起動し直したときは、`node apps/api/scripts/setup-cognito.mjs` とサインアップからやり直します。
 
 :::

@@ -11,17 +11,17 @@ title: 認証を middleware にする
 
 ![トークンの確認が AuthMiddleware に分かれ、NotesController より先に動く。SQL と処理は NotesService、データベースは DatabaseModule の DatabaseSync に分かれている](./images/01-structure.svg)
 
-::diff{file="api/src/auth/auth.middleware.ts"}
+::diff{file="apps/api/src/auth/auth.middleware.ts"}
 
 - `req.user = await verifyToken(...)` … 正しければトークンの中身を `req.user` に入れて `next()` で先へ進めます。正しくなければ `verifyToken` が `401` にします
 
 作成と削除にだけ掛けます。一覧は誰でも見られるので掛けません。
 
-::diff{file="api/src/app.module.ts"}
+::diff{file="apps/api/src/app.module.ts"}
 
 - `forRoutes()` … middleware を掛ける URL とメソッドを選びます
 
-::diff{file="api/src/notes/notes.controller.ts"}
+::diff{file="apps/api/src/notes/notes.controller.ts"}
 
 - `@Req() req: AuthenticatedRequest` … middleware が入れた `req.user` から、ユーザーの `sub` を読みます
 

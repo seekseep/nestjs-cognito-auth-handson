@@ -13,14 +13,14 @@ SQLite は、Node.js に入っている `node:sqlite` で使います。ライ�
 
 ## データベースのファイルをボリュームに置く
 
-::diff{file="api/compose.yaml"}
+::diff{file="compose.yaml"}
 
 - `DB_PATH: /data/notes.db` … API が開くファイルの場所です（次に作る `src/database.ts` で読みます）
 - `db:/data` … `db` という名前のボリュームを、コンテナの `/data` につなぎます。`podman compose down` でコンテナを消しても、ボリュームは残ります
 
 ## データベースを開く
 
-::diff{file="api/src/database.ts"}
+::diff{file="apps/api/src/database.ts"}
 
 - `new DatabaseSync(...)` … `DB_PATH` のファイルを開きます。無ければ作ります
 - `CREATE TABLE IF NOT EXISTS` … `notes` テーブルが無ければ作ります。列は、03 章で決めたノートの項目です。`ownerId` は `NOT NULL` を付けず、認証を足すまでは `null` を入れます
@@ -35,7 +35,9 @@ Node.js 26 のドキュメントでは、このクラスの名前は `Database` 
 ノートの API を受け付けるコントローラーを作ります。
 
 ```bash
+cd apps/api
 npx nest g controller notes
+cd ../..
 ```
 
 ```text
@@ -45,11 +47,11 @@ UPDATE src/app.module.ts (335 bytes)
 
 `AppModule` に `NotesController` が登録されます。
 
-::diff{file="api/src/app.module.ts" by="command"}
+::diff{file="apps/api/src/app.module.ts" by="command"}
 
 コントローラーが作られたときに、データベースを開くようにします。この章では、データベースの扱いもコントローラーに直接書きます（07 章で整理します）。
 
-::diff{file="api/src/notes/notes.controller.ts" base="generated"}
+::diff{file="apps/api/src/notes/notes.controller.ts" base="generated"}
 
 ## 動作確認する
 

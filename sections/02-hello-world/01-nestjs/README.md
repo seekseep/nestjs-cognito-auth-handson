@@ -5,7 +5,7 @@ NestJS のプロジェクトを作り、`GET /` で `Hello World!` を返す状�
 ## 動かし方
 
 ```bash
-cd api
+cd apps/api
 npm install
 npm run start:dev    # http://localhost:3000
 ```

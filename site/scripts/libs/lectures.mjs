@@ -14,7 +14,7 @@ import path from 'node:path';
 
 import { ROOT } from './paths.mjs';
 
-const PROJECT_MARKERS = ['ui', 'api', 'compose.yaml', 'package.json'];
+const PROJECT_MARKERS = ['apps', 'ui', 'api', 'compose.yaml', 'package.json'];
 const NUMBERED = /^\d\d-/;
 
 function numberedDirs(abs) {

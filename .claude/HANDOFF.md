@@ -12,6 +12,7 @@
   削除（作った人）だけの API にし、章立てを 準備 / エンドポイントを作る / 認証する / 認可する / 整理する にした。
   API も Podman で動かす。メモの更新・単一取得・admin グループ・Guard・`@Public()` などは消した
 
+- 2026-11-23: プロジェクトを、ルートに `compose.yaml` と `apps/api/`・`apps/ui/` を並べるモノレポの形にした（C と同じ。B は E2E が無いので、ui は public に分けず、`apps/ui/` の直下を nginx が配る）。`.env` と `lambda.zip` はルート、`config.json` は `apps/ui/`
 ## 環境
 
 - Node.js 26。レクチャーの `api/` は npm、`site/` は pnpm（`site/package.json` の packageManager）
@@ -29,13 +30,13 @@
 
 ## 確かめ方のメモ
 
-- 各節の `api/` で `npm install` → `npm run build`（02-01 は手元で起動して `Hello World!`）
-- 02-02 から: `podman compose up -d --build --wait`。画面は http://localhost:3000（nginx）、API は http://localhost:3001
+- 各節の `apps/api/` で `npm install` → `npm run build`（02-01 は手元で起動して `Hello World!`）
+- 02-02 から: ルートで `podman compose up -d --build --wait`。画面は http://localhost:3000（nginx）、API は http://localhost:3001
 - 04 章: curl で作成 201・一覧 200（と一覧の画面）・削除 204・無い id で 404
-- 05 章から: `podman compose up -d --build --wait` → `node scripts/setup-cognito.mjs` → `podman compose up -d --wait`。
+- 05 章から: `podman compose up -d --build --wait` → `node apps/api/scripts/setup-cognito.mjs` → `podman compose up -d --wait`。
   Playwright で signup.html（確認コードは `/_aws/ses` から）・login.html を操作して alice・bob のトークンを取り、
   トークン無し POST 401・alice POST 201・bob DELETE 403（06 章から）・トークン無し DELETE 401（06 章から）・alice DELETE 204・2 回目 404
-- ポート 3000（画面）・3001（API）・4566（Floci）を使う。CORS は `http://localhost:3000` だけを許しているので、ずらして確かめるときは、compose のポート・`src/main.ts` の `origin`・Floci の `FLOCI_SECURITY_EXTRA_CORS_ALLOWED_ORIGINS`・`public/lib/api.js`・`scripts/setup-cognito.mjs` の URL をそろえてずらす
+- ポート 3000（画面）・3001（API）・4566（Floci）を使う。CORS は `http://localhost:3000` だけを許しているので、ずらして確かめるときは、compose のポート・`src/main.ts` の `origin`・Floci の `FLOCI_SECURITY_EXTRA_CORS_ALLOWED_ORIGINS`・`apps/ui/lib/api.js`・`apps/api/scripts/setup-cognito.mjs` の URL をそろえてずらす
 
 ## 残っていること
 

@@ -11,7 +11,7 @@ title: 作成を実装する
 
 ## コントローラーに書く
 
-::diff{file="api/src/notes/notes.controller.ts"}
+::diff{file="apps/api/src/notes/notes.controller.ts"}
 
 - `type Note` … 03 章で決めたノートの項目です
 - `@Body() input` … 届いた本文（JSON）を受け取ります。型は書くときの手助けで、届いた中身を確かめるわけではありません

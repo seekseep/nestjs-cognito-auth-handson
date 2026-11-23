@@ -11,9 +11,9 @@ title: ログイン画面を作る
 
 ![ログイン画面が InitiateAuth でメールアドレスとパスワードを Cognito（Floci）に送り、Cognito がアクセストークンを返す](./images/01-log-in.svg)
 
-::diff{file="api/public/login.html"}
+::diff{file="apps/ui/login.html"}
 
-::diff{file="api/public/login.js"}
+::diff{file="apps/ui/login.js"}
 
 - `InitiateAuth` … `USER_PASSWORD_AUTH` で、メールアドレスとパスワードを送ります
 - `AuthenticationResult.AccessToken` … 受け取ったアクセストークンです。画面に出して、次の節から curl で使います

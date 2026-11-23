@@ -15,7 +15,7 @@ title: 役割で認可する
 
 セットアップのスクリプトで、グループ `admin` と、そこに入れる管理者のユーザー `admin@example.com` を作ります。
 
-::diff{file="api/scripts/setup-cognito.mjs"}
+::diff{file="apps/api/scripts/setup-cognito.mjs"}
 
 - `CreateGroup` … グループを作ります
 - `AdminCreateUser`・`AdminSetUserPassword` … サインアップの画面を通さずにユーザーを作り、パスワードを決めます（`MessageAction: 'SUPPRESS'` で、招待のメールは送りません）
@@ -23,7 +23,7 @@ title: 役割で認可する
 
 ## admin なら消せるようにする
 
-::diff{file="api/src/notes/notes.controller.ts"}
+::diff{file="apps/api/src/notes/notes.controller.ts"}
 
 - `user['cognito:groups']` … トークンに入っているグループの配列です。グループに入っていない人には、この項目がありません
 
@@ -34,7 +34,7 @@ title: 役割で認可する
 ```bash
 podman compose down
 podman compose up -d --build --wait
-node scripts/setup-cognito.mjs
+node apps/api/scripts/setup-cognito.mjs
 podman compose up -d --wait
 ```
 

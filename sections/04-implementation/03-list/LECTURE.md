@@ -11,16 +11,16 @@ title: 一覧を実装する
 
 ## コントローラーに書く
 
-::diff{file="api/src/notes/notes.controller.ts"}
+::diff{file="apps/api/src/notes/notes.controller.ts"}
 
 - `@Get()` … `GET /notes` を受け付けます
 - `prepare(...).all()` … すべての行を配列で返します。作った順（`createdAt`）に並べます
 
 ## 一覧の画面を作る
 
-::diff{file="api/public/notes.html"}
+::diff{file="apps/ui/notes.html"}
 
-::diff{file="api/public/notes.js"}
+::diff{file="apps/ui/notes.js"}
 
 - `item.textContent = ...` … `innerHTML` だと、ノートに書いた HTML が画面で動いてしまうので、文字として入れます
 
