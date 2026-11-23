@@ -60,7 +60,7 @@ Lambda が所属を聞く、API の入口を作ります。
 
 ```bash
 cd apps/api
-npx nest g controller teams
+npx nest g controller teams --no-spec
 cd ../..
 ```
 
