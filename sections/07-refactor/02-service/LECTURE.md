@@ -12,7 +12,9 @@ SQL と処理（認可の判定も）を **サービス** に移し、コント�
 ![SQL と処理が NotesService に分かれる。DatabaseSync は NotesService に、NotesService は NotesController に注入される](./images/01-structure.svg)
 
 ```bash
+cd apps/api
 npx nest g service notes
+cd ../..
 ```
 
 ```text
@@ -22,15 +24,15 @@ UPDATE src/app.module.ts (484 bytes)
 
 `AppModule` の `providers` に `NotesService` が登録されます。
 
-::diff{file="api/src/app.module.ts" by="command"}
+::diff{file="apps/api/src/app.module.ts" by="command"}
 
-::diff{file="api/src/notes/notes.service.ts" base="generated"}
+::diff{file="apps/api/src/notes/notes.service.ts" base="generated"}
 
 - メソッドの中身は、コントローラーにあったものをそのまま移しています。作った人の ID と、トークンの中身（`user`）は、引数で受け取ります
 - 認可（作った人・`admin`・同じチーム）は、消すノートの `ownerId`・`teamId` を読んでから決めるので、ノートを読むサービスに置きます
 - データベースは、サービスのコンストラクターで受け取ります
 
-::diff{file="api/src/notes/notes.controller.ts"}
+::diff{file="apps/api/src/notes/notes.controller.ts"}
 
 - トークンの確認（`verifyToken`）と応答のステータス（`@HttpCode(204)`）は、HTTP の決まりなのでコントローラーに残します
 

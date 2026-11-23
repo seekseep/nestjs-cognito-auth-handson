@@ -9,7 +9,7 @@ title: 所有で認可する
 
 **所有** で認可します。ノートを消せるのは、作った人だけです。削除にもトークンを求め、トークンの `sub` とノートの `ownerId` を比べます。
 
-::diff{file="api/src/notes/notes.controller.ts"}
+::diff{file="apps/api/src/notes/notes.controller.ts"}
 
 - `SELECT ownerId FROM notes WHERE id = ?` … 消す前に、ノートの作った人を読みます。無ければ `404` です
 - `note.ownerId !== user.sub` … 作った人でなければ `ForbiddenException`（`403`）を投げます

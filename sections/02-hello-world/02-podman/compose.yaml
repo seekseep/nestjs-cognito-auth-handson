@@ -1,0 +1,16 @@
+services:
+  api:
+    # apps/api/ の Dockerfile からイメージを作る
+    build: ./apps/api
+    ports:
+      # ほかのマシンから届かないよう、ループバックにだけ公開する
+      - "127.0.0.1:3001:3000"
+
+  web:
+    # 画面（apps/ui/）を配るだけの静的サーバー
+    image: docker.io/library/nginx:1.27-alpine
+    ports:
+      # ほかのマシンから届かないよう、ループバックにだけ公開する
+      - "127.0.0.1:3000:80"
+    volumes:
+      - ./apps/ui:/usr/share/nginx/html:ro

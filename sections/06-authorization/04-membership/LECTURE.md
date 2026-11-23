@@ -13,7 +13,7 @@ title: 所属で認可する
 
 ## チームと所属の表を作る
 
-::diff{file="api/src/database.ts"}
+::diff{file="apps/api/src/database.ts"}
 
 - `notes` の `teamId` … ノートを分け合うチームです。無ければ `null` です
 - `teams` … チームの表です
@@ -21,7 +21,7 @@ title: 所属で認可する
 
 ## 同じチームの人なら消せるようにする
 
-::diff{file="api/src/notes/notes.controller.ts"}
+::diff{file="apps/api/src/notes/notes.controller.ts"}
 
 - `input.teamId ?? null` … ノートを作るときに、チームを送れます
 - `SELECT 1 FROM team_members WHERE teamId = ? AND userId = ?` … ノートのチームに、トークンの人が入っているかを、消すたびに表で確かめます
@@ -30,7 +30,7 @@ title: 所属で認可する
 
 メールアドレスでチームに足したり外したりするスクリプトです。API のコンテナの中で動かし、Cognito でメールアドレスから `sub` を調べて、SQLite に書きます。
 
-::diff{file="api/scripts/team-member.mjs"}
+::diff{file="apps/api/scripts/team-member.mjs"}
 
 ## 動作確認する
 
@@ -39,7 +39,7 @@ title: 所属で認可する
 ```bash
 podman compose down --volumes
 podman compose up -d --build --wait
-node scripts/setup-cognito.mjs
+node apps/api/scripts/setup-cognito.mjs
 podman compose up -d --wait
 ```
 

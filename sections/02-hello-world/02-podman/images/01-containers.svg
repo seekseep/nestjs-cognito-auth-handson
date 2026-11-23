@@ -9,9 +9,9 @@
 <text x="560" y="132.031" text-anchor="middle" font-size="21.25" fill="#15803d" font-weight="600"><tspan x="560" dy="0">web（nginx）</tspan><tspan x="560" dy="30.8125">127.0.0.1:3000</tspan></text>
 <rect x="435" y="235" width="250" height="90" rx="16" fill="#dbeafe" stroke="#3b82f6" stroke-width="3.5"/>
 <text x="560" y="272.031" text-anchor="middle" font-size="21.25" fill="#1d4ed8" font-weight="600"><tspan x="560" dy="0">api（NestJS）</tspan><tspan x="560" dy="30.8125">127.0.0.1:3001</tspan></text>
-<path d="M160.55 192.10 L208.91 185.79" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M380.69 163.39 L429.05 157.08" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
-<text x="294.8" y="182.029" text-anchor="middle" font-size="21.25" fill="#0f172a" font-weight="600">画面（public/）</text>
+<path d="M160.55 192.10 L202.17 186.67" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M387.43 162.51 L429.05 157.08" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
+<text x="294.8" y="182.029" text-anchor="middle" font-size="21.25" fill="#0f172a" font-weight="600">画面（apps/ui/）</text>
 <path d="M160.51 210.52 L256.06 227.14" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M333.54 240.62 L429.09 257.23" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
 <text x="294.8" y="241.316" text-anchor="middle" font-size="21.25" fill="#0f172a" font-weight="600">GET /</text>

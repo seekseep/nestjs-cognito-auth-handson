@@ -16,14 +16,16 @@ title: トークンが無いと作れないようにする
 トークンの確認には、AWS が公開している **aws-jwt-verify** を使います。
 
 ```bash
+cd apps/api
 npm install aws-jwt-verify
+cd ../..
 ```
 
-::diff{file="api/package.json" by="command"}
+::diff{file="apps/api/package.json" by="command"}
 
 ## トークンを確かめる関数を作る
 
-::diff{file="api/src/auth/verify-token.ts"}
+::diff{file="apps/api/src/auth/verify-token.ts"}
 
 - `issuer` … トークンの発行元です。Floci の中の、自分のユーザープールです
 - `audience: null` と `customJwtCheck` … Cognito のアクセストークンには `aud` が無いので、代わりに `token_use` と `client_id` を確かめます
@@ -31,7 +33,7 @@ npm install aws-jwt-verify
 
 ## コントローラーで確かめる
 
-::diff{file="api/src/notes/notes.controller.ts"}
+::diff{file="apps/api/src/notes/notes.controller.ts"}
 
 - `@Headers('authorization')` … `Authorization` ヘッダーの値を受け取ります
 - `await verifyToken(authorization)` … 正しくなければ `401` の例外を投げるので、ノートは作られません

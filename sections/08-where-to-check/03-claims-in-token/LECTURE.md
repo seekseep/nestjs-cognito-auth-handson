@@ -15,7 +15,7 @@ title: トークンに持たせる
 
 Floci は、Lambda の関数をコンテナで動かします。そのために、Floci のコンテナに Podman のソケットを渡します。
 
-::diff{file="api/compose.yaml"}
+::diff{file="compose.yaml"}
 
 - `${PODMAN_SOCKET}:/var/run/docker.sock` … Podman のソケットの場所は、`.env` の `PODMAN_SOCKET` から読みます（このあと書きます）
 - `label=disable` … SELinux のラベルのせいで、Floci がソケットに入れないのを防ぎます
@@ -39,7 +39,7 @@ echo "PODMAN_SOCKET=$(podman info --format '{{.Host.RemoteSocket.Path}}' | sed '
 
 ## Lambda の関数を書く
 
-::diff{file="api/lambda/index.mjs"}
+::diff{file="apps/api/lambda/index.mjs"}
 
 - `event.request.userAttributes.sub` … トークンを作る人の `sub` です
 - `claimsAndScopeOverrideDetails.accessTokenGeneration.claimsToAddOrOverride` … アクセストークンに足すクレームです。V2 のトリガーの形です
@@ -48,7 +48,7 @@ echo "PODMAN_SOCKET=$(podman info --format '{{.Host.RemoteSocket.Path}}' | sed '
 
 セットアップのスクリプトで、Lambda の関数を作り、ユーザープールのトリガーにします。
 
-::diff{file="api/scripts/setup-cognito.mjs"}
+::diff{file="apps/api/scripts/setup-cognito.mjs"}
 
 - `/2015-03-31/functions` … Lambda の関数を作る API です。中身は `lambda.zip` を base64 にして送ります
 - `LambdaVersion: 'V2_0'` … V2 のトリガーにすると、アクセストークンにクレームを足せます
@@ -59,7 +59,9 @@ echo "PODMAN_SOCKET=$(podman info --format '{{.Host.RemoteSocket.Path}}' | sed '
 Lambda が所属を聞く、API の入口を作ります。
 
 ```bash
+cd apps/api
 npx nest g controller teams
+cd ../..
 ```
 
 ```text
@@ -67,16 +69,16 @@ CREATE src/teams/teams.controller.ts (99 bytes)
 UPDATE src/app.module.ts (1044 bytes)
 ```
 
-::diff{file="api/src/app.module.ts" by="command"}
+::diff{file="apps/api/src/app.module.ts" by="command"}
 
-::diff{file="api/src/teams/teams.controller.ts" base="generated"}
+::diff{file="apps/api/src/teams/teams.controller.ts" base="generated"}
 
 - `GET /teams?userId=<sub>` … その人が入っているチームの ID の配列を返します
 - トークン無しで所属を返す入口なので、本番では外から届かない場所に置きます
 
 ## トークンの teams で確かめる
 
-::diff{file="api/src/notes/notes.service.ts"}
+::diff{file="apps/api/src/notes/notes.service.ts"}
 
 - `user['teams']` … Lambda が足した `teams` クレームです。API は、ここでは `team_members` を引きません
 
@@ -88,27 +90,27 @@ UPDATE src/app.module.ts (1044 bytes)
 ::::macos
 ```bash
 podman compose down
-zip -j lambda.zip lambda/index.mjs
+zip -j lambda.zip apps/api/lambda/index.mjs
 ```
 ::::
 ::::linux
 ```bash
 podman compose down
 sudo apt-get install -y zip
-zip -j lambda.zip lambda/index.mjs
+zip -j lambda.zip apps/api/lambda/index.mjs
 ```
 ::::
 ::::windows
 ```powershell
 podman compose down
-Compress-Archive -Path lambda/index.mjs -DestinationPath lambda.zip -Force
+Compress-Archive -Path apps/api/lambda/index.mjs -DestinationPath lambda.zip -Force
 ```
 ::::
 :::::
 
 ```bash
 podman compose up -d --build --wait
-node scripts/setup-cognito.mjs
+node apps/api/scripts/setup-cognito.mjs
 podman compose up -d --wait
 ```
 

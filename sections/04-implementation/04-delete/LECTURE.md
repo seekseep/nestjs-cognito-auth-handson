@@ -11,7 +11,7 @@ title: 削除を実装する
 
 ## コントローラーに書く
 
-::diff{file="api/src/notes/notes.controller.ts"}
+::diff{file="apps/api/src/notes/notes.controller.ts"}
 
 - `@HttpCode(204)` … 応答を `204 No Content` にします（何もしなければ `200`）
 - `run(id)` が返す `changes` は、消した行の数です。`0` なら、そのノートは無いので `404` にします

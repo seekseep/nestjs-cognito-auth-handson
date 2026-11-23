@@ -7,27 +7,30 @@ title: NestJS の Hello World
 
 ![02 章 NestJS の Hello World](./images/00-thumbnail.svg)
 
-この節では、**NestJS** のプロジェクトを作り、「Hello World!」を返す API を動かします。このプロジェクト（`api/`）に、04 章でノートを読み書きする API を実装し、05 章で認証を、06 章で認可を足します。
+この節では、**NestJS** のプロジェクトを作り、「Hello World!」を返す API を動かします。このプロジェクト（`apps/api/`）に、04 章でノートを読み書きする API を実装し、05 章で認証を、06 章で認可を足します。
 
 NestJS は、Node.js で API を作るためのフレームワークです。URL ごとの処理（コントローラー）と処理の中身（サービス）を分けて書き、それらをモジュールにまとめます。
 
 ## NestJS のプロジェクトを作る
 
-作業用のフォルダを作り、その中で Nest CLI を使ってプロジェクトを作ります。
+作業用のフォルダ（`handson/`）を作ります。API と画面を 1 つのリポジトリで並べて管理する形（モノレポ）にするので、その中の `apps/` に、Nest CLI でプロジェクトを作ります。
 
 ```bash
 mkdir handson
 cd handson
+mkdir apps
+cd apps
 npx @nestjs/cli@12 new api --package-manager npm --skip-git --skip-tests --type esm --no-observe --skip-skills
 ```
 
-Nest CLI の 12 系で `api/` を作り、ライブラリのインストールまで行います。`--skip-git` で Git のリポジトリを作らず、`--skip-tests` でテストのファイルを作らず、`--type esm` でモジュールの方式を ESM にし、`--no-observe` で監視サービス（NestJS Observe）の設定を、`--skip-skills` でコーディングエージェント向けのスキルのファイルを飛ばします。
+Nest CLI の 12 系で `apps/api/` を作り、ライブラリのインストールまで行います。`--skip-git` で Git のリポジトリを作らず、`--skip-tests` でテストのファイルを作らず、`--type esm` でモジュールの方式を ESM にし、`--no-observe` で監視サービス（NestJS Observe）の設定を、`--skip-skills` でコーディングエージェント向けのスキルのファイルを飛ばします。
 
-以降のコマンドは、`api/` の中で実行します。VS Code で `api/` を開いておきます。
+VS Code で `handson/` を開いておきます。以降のコマンドは、`apps/api/` の中で実行します。
 
 ```bash
-cd api
+cd ..
 code .
+cd apps/api
 ```
 
 ## テストの仕組みを消す
@@ -100,7 +103,7 @@ npm run start:dev
 
 `start:dev` は、ファイルを保存すると自動で再起動します。止めるときは Ctrl + C を押します。ポート番号は `src/main.ts` で決まっています。
 
-:::code{filepath="api/src/main.ts"}
+:::code{filepath="apps/api/src/main.ts"}
 ```ts
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module.js';
@@ -121,7 +124,7 @@ await bootstrap();
 
 ![GET / が AppController の getHello() に届き、AppService の getHello() が返した Hello World! がレスポンスの本文になる](./images/01-request-flow.svg)
 
-:::code{filepath="api/src/app.controller.ts"}
+:::code{filepath="apps/api/src/app.controller.ts"}
 ```ts
 @Controller()
 export class AppController {
@@ -176,6 +179,6 @@ TypeScript をコンパイルして `dist/` に書き出します。このハン
 
 ### ZIP をダウンロードして始めたら動かない
 
-ZIP には `node_modules/` が入っていません。展開した `api/` で `npm install` を実行してから動かしてください。
+ZIP には `node_modules/` が入っていません。展開した `apps/api/` で `npm install` を実行してから動かしてください。
 
 :::

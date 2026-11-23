@@ -17,21 +17,17 @@ title: サインアップ画面を作る
 
 `compose.yaml` に Floci を足します。
 
-::diff{file="api/compose.yaml"}
+::diff{file="compose.yaml"}
 
 - `env_file` … 次に作るスクリプトが書く `.env`（ユーザープール ID とクライアント ID）を、API のコンテナに渡します
 - `FLOCI_BASE_URL` … 発行するトークンの発行元を `http://floci:4566` にします。compose の中では、ほかのコンテナに **サービス名**（`floci`）で届くので、API のコンテナから確かめられる名前にしておきます
 - `FLOCI_SECURITY_EXTRA_CORS_ALLOWED_ORIGINS` … 画面（`http://localhost:3000`）から Floci を直接呼ぶので、その呼び出しを許します
 
-`.env` はイメージに入れません。
-
-::diff{file="api/.dockerignore"}
-
 ## ユーザープールを作る
 
-Cognito の API を呼んで、ユーザープールとアプリケーションクライアントを作るスクリプトです。作った ID を、API が読む `.env` と、画面が読む `public/config.json` に書き出します。
+Cognito の API を呼んで、ユーザープールとアプリケーションクライアントを作るスクリプトです。作った ID を、API が読む `.env` と、画面が読む `apps/ui/config.json` に書き出します。
 
-::diff{file="api/scripts/setup-cognito.mjs"}
+::diff{file="apps/api/scripts/setup-cognito.mjs"}
 
 - `AutoVerifiedAttributes: ['email']` … サインアップしたら、メールで確認コードを送ります
 - `GenerateSecret: false` … ブラウザで動くコードは誰でも中身を見られるので、クライアントシークレットは持たせません
@@ -39,33 +35,33 @@ Cognito の API を呼んで、ユーザープールとアプリケーション�
 
 ## サインアップ画面を作る
 
-画面が使う部品を `public/lib/` に足します。`config.js` は `config.json` を読み、`cognito.js` は Cognito の API を呼びます。
+画面が使う部品を `apps/ui/lib/` に足します。`config.js` は `config.json` を読み、`cognito.js` は Cognito の API を呼びます。
 
-::diff{file="api/public/lib/config.js"}
+::diff{file="apps/ui/lib/config.js"}
 
-::diff{file="api/public/lib/cognito.js"}
+::diff{file="apps/ui/lib/cognito.js"}
 
 - どの操作かを `x-amz-target` ヘッダーで伝えます。サインアップやログインの API は、クライアント ID だけで呼べます
 
-::diff{file="api/public/signup.html"}
+::diff{file="apps/ui/signup.html"}
 
-::diff{file="api/public/signup.js"}
+::diff{file="apps/ui/signup.js"}
 
 - `SignUp` … メールアドレスとパスワードで登録します。Cognito が確認コードをメールで送ります
 - `ConfirmSignUp` … 届いた確認コードを送ると、登録が確定します
 
 ## 動作確認する
 
-`api/` で起動し、ユーザープールを作ってから、`.env` を読ませるためにもう一度起動します。
+ルートで起動し、ユーザープールを作ってから、`.env` を読ませるためにもう一度起動します。`.env` はルートに置かれ、`compose.yaml` が API のコンテナに渡します。
 
 ```bash
 podman compose up -d --build --wait
-node scripts/setup-cognito.mjs
+node apps/api/scripts/setup-cognito.mjs
 podman compose up -d --wait
 ```
 
 ```text
-ユーザープール us-east-1_6511add1f とクライアント 49d9ff2864944c0cb99ce8f1e4 を作り、.env と public/config.json に書きました
+ユーザープール us-east-1_6511add1f とクライアント 49d9ff2864944c0cb99ce8f1e4 を作り、.env と apps/ui/config.json に書きました
 ```
 
 <http://localhost:3000/signup.html> を開き、`alice@example.com` とパスワード `Passw0rd!` で **サインアップ** を押します。
@@ -99,7 +95,7 @@ Floci はデータをメモリに持つので、`podman compose down` やパソ�
 
 ### 画面に「config.json がありません」と出る
 
-`node scripts/setup-cognito.mjs` をまだ実行していないか、Floci を起動し直してユーザープールが消えています。「動作確認する」の 3 つのコマンドをやり直し、読み込み直してください。
+`node apps/api/scripts/setup-cognito.mjs` をまだ実行していないか、Floci を起動し直してユーザープールが消えています。「動作確認する」の 3 つのコマンドをやり直し、読み込み直してください。
 
 ### `Failed to fetch` や `ResourceNotFoundException` と出る
 
