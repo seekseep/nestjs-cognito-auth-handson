@@ -52,6 +52,6 @@ curl -i -X POST http://localhost:3001/notes -H 'Authorization: Bearer <アクセ
 
 ### トークンを付けても `401` で `Invalid token` と出る
 
-トークンの期限が切れているか、Floci を起動し直したあとの古いトークンです。ログインし直して、新しいトークンで送ってください。Floci を起動し直したときは、`node apps/api/scripts/setup-cognito.mjs` とサインアップからやり直します。
+トークンの期限が切れているか、Floci を起動し直したあとの古いトークンです。ログインし直して、新しいトークンで送ってください。Floci を起動し直したときは、`node apps/api/scripts/setup-cognito.js` とサインアップからやり直します。
 
 :::

@@ -1,6 +1,6 @@
-// チームの所属を足す・外す。API のコンテナの中で動かす（podman compose exec api node scripts/team-member.mjs ...）。
-//   node scripts/team-member.mjs add bob@example.com team-a
-//   node scripts/team-member.mjs remove bob@example.com team-a
+// チームの所属を足す・外す。API のコンテナの中で動かす（podman compose exec api node scripts/team-member.js ...）。
+//   node scripts/team-member.js add bob@example.com team-a
+//   node scripts/team-member.js remove bob@example.com team-a
 import { DatabaseSync } from 'node:sqlite';
 
 const [action, email, teamId] = process.argv.slice(2);

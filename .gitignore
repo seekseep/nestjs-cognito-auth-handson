@@ -6,7 +6,7 @@ node_modules/
 .env.*
 !.env.example
 
-# scripts/setup-cognito.mjs が書き出す、画面が読む設定（ユーザープールの ID とクライアント ID）
+# scripts/setup-cognito.js が書き出す、画面が読む設定（ユーザープールの ID とクライアント ID）
 **/apps/ui/config.json
 # Pre Token Generation の Lambda の zip（lambda/index.mjs から作る）
 **/lambda.zip

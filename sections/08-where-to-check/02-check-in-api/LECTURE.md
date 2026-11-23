@@ -9,7 +9,7 @@ title: API で確かめる
 
 06 章で作った形を、比べる観点で見直します。コードは変えません（07 章の最後の形のままです）。
 
-![bob が DELETE するたびに、API の NotesService が team_members を引く。所属は team-member.mjs で書き換え、次のリクエストからすぐ効く](./images/01-check-in-api.svg)
+![bob が DELETE するたびに、API の NotesService が team_members を引く。所属は team-member.js で書き換え、次のリクエストからすぐ効く](./images/01-check-in-api.svg)
 
 | 見るところ | この方法では |
 |---|---|
@@ -23,7 +23,7 @@ title: API で確かめる
 07 章の最後の状態で、alice のトークンで `team-a` のノートを作り、bob を `team-a` に入れて、bob のトークンで消せることを確かめます（`204`）。もう 1 つ `team-a` のノートを作り、bob を `team-a` から外します。
 
 ```bash
-podman compose exec api node scripts/team-member.mjs remove bob@example.com team-a
+podman compose exec api node scripts/team-member.js remove bob@example.com team-a
 ```
 
 さっきと **同じ bob のトークン** で消します。

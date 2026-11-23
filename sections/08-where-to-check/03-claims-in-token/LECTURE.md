@@ -48,7 +48,7 @@ echo "PODMAN_SOCKET=$(podman info --format '{{.Host.RemoteSocket.Path}}' | sed '
 
 セットアップのスクリプトで、Lambda の関数を作り、ユーザープールのトリガーにします。
 
-::diff{file="apps/api/scripts/setup-cognito.mjs"}
+::diff{file="apps/api/scripts/setup-cognito.js"}
 
 - `/2015-03-31/functions` … Lambda の関数を作る API です。中身は `lambda.zip` を base64 にして送ります
 - `LambdaVersion: 'V2_0'` … V2 のトリガーにすると、アクセストークンにクレームを足せます
@@ -110,14 +110,14 @@ Compress-Archive -Path apps/api/lambda/index.mjs -DestinationPath lambda.zip -Fo
 
 ```bash
 podman compose up -d --build --wait
-node apps/api/scripts/setup-cognito.mjs
+node apps/api/scripts/setup-cognito.js
 podman compose up -d --wait
 ```
 
 alice と bob をサインアップし直し、bob を `team-a` に入れます。
 
 ```bash
-podman compose exec api node scripts/team-member.mjs add bob@example.com team-a
+podman compose exec api node scripts/team-member.js add bob@example.com team-a
 ```
 
 bob でログインし直し、アクセストークンの中身を見ます。最初のログインは、Floci が Lambda を動かすイメージを取ってくるので、時間がかかります。
@@ -131,7 +131,7 @@ node -e "console.log(JSON.parse(Buffer.from(process.argv[1].split('.')[1], 'base
 次に、もう 1 つ `team-a` のノートを作り、bob を `team-a` から外してから、**同じ bob のトークン** で消します。
 
 ```bash
-podman compose exec api node scripts/team-member.mjs remove bob@example.com team-a
+podman compose exec api node scripts/team-member.js remove bob@example.com team-a
 curl -i -X DELETE http://localhost:3001/notes/<ノートの ID> -H 'Authorization: Bearer <bob のアクセストークン>'
 ```
 

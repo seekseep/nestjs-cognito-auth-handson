@@ -30,7 +30,7 @@ title: 所属で認可する
 
 メールアドレスでチームに足したり外したりするスクリプトです。API のコンテナの中で動かし、Cognito でメールアドレスから `sub` を調べて、SQLite に書きます。
 
-::diff{file="apps/api/scripts/team-member.mjs"}
+::diff{file="apps/api/scripts/team-member.js"}
 
 ## 動作確認する
 
@@ -39,7 +39,7 @@ title: 所属で認可する
 ```bash
 podman compose down --volumes
 podman compose up -d --build --wait
-node apps/api/scripts/setup-cognito.mjs
+node apps/api/scripts/setup-cognito.js
 podman compose up -d --wait
 ```
 
@@ -52,7 +52,7 @@ curl -i -X POST http://localhost:3001/notes -H 'Authorization: Bearer <alice の
 bob のトークンで消すと、まだ `HTTP/1.1 403 Forbidden` です。bob を `team-a` に入れます。
 
 ```bash
-podman compose exec api node scripts/team-member.mjs add bob@example.com team-a
+podman compose exec api node scripts/team-member.js add bob@example.com team-a
 ```
 
 同じ bob のトークンで、もう一度消します。
