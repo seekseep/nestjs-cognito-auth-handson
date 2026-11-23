@@ -7,7 +7,7 @@
 <rect x="370" y="78" width="220" height="64" rx="16" fill="#dbeafe" stroke="#3b82f6" stroke-width="3.5"/>
 <text x="480" y="117.933" text-anchor="middle" font-size="22.666666666666664" fill="#1d4ed8" font-weight="600">作った人</text>
 <rect x="685" y="68" width="230" height="84" rx="16" fill="#fef9c3" stroke="#f59e0b" stroke-width="3.5"/>
-<text x="800" y="117.933" text-anchor="middle" font-size="22.666666666666664" fill="#b45309" font-weight="600"><tspan x="800" dy="0">ノート</tspan><tspan x="800" dy="32.8667">ownerId = alice</tspan></text>
+<text x="800" y="101.5" text-anchor="middle" font-size="22.666666666666664" fill="#b45309" font-weight="600"><tspan x="800" dy="0">ノート</tspan><tspan x="800" dy="32.8667">ownerId = alice</tspan></text>
 <path d="M176.00 110.00 L364.00 110.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
 <path d="M596.00 110.00 L679.00 110.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
 <text x="637.5" y="98.6" text-anchor="middle" font-size="22.666666666666664" fill="#0f172a" font-weight="600">消せる</text>
@@ -27,7 +27,7 @@
 <rect x="370" y="438" width="220" height="64" rx="16" fill="#dbeafe" stroke="#3b82f6" stroke-width="3.5"/>
 <text x="480" y="477.933" text-anchor="middle" font-size="22.666666666666664" fill="#1d4ed8" font-weight="600">チーム team-a</text>
 <rect x="685" y="428" width="230" height="84" rx="16" fill="#fef9c3" stroke="#f59e0b" stroke-width="3.5"/>
-<text x="800" y="477.933" text-anchor="middle" font-size="22.666666666666664" fill="#b45309" font-weight="600"><tspan x="800" dy="0">ノート</tspan><tspan x="800" dy="32.8667">teamId = team-a</tspan></text>
+<text x="800" y="461.5" text-anchor="middle" font-size="22.666666666666664" fill="#b45309" font-weight="600"><tspan x="800" dy="0">ノート</tspan><tspan x="800" dy="32.8667">teamId = team-a</tspan></text>
 <path d="M176.00 470.00 L364.00 470.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
 <path d="M596.00 470.00 L679.00 470.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
 <text x="637.5" y="458.6" text-anchor="middle" font-size="22.666666666666664" fill="#0f172a" font-weight="600">消せる</text>

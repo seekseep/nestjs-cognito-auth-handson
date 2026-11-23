@@ -6,11 +6,11 @@
 <rect x="295" y="75" width="210" height="70" rx="16" fill="#ffedd5" stroke="#f97316" stroke-width="3.5"/>
 <text x="400" y="117.933" text-anchor="middle" font-size="22.666666666666664" fill="#c2410c" font-weight="600">Cognito（Floci）</text>
 <rect x="680" y="67" width="200" height="86" rx="16" fill="#ede9fe" stroke="#8b5cf6" stroke-width="3.5"/>
-<text x="780" y="117.933" text-anchor="middle" font-size="22.666666666666664" fill="#6d28d9" font-weight="600"><tspan x="780" dy="0">Lambda</tspan><tspan x="780" dy="32.8667">pre-token</tspan></text>
+<text x="780" y="101.5" text-anchor="middle" font-size="22.666666666666664" fill="#6d28d9" font-weight="600"><tspan x="780" dy="0">Lambda</tspan><tspan x="780" dy="32.8667">pre-token</tspan></text>
 <rect x="680" y="277" width="200" height="86" rx="16" fill="#dbeafe" stroke="#3b82f6" stroke-width="3.5"/>
-<text x="780" y="327.933" text-anchor="middle" font-size="22.666666666666664" fill="#1d4ed8" font-weight="600"><tspan x="780" dy="0">API</tspan><tspan x="780" dy="32.8667">GET /teams</tspan></text>
+<text x="780" y="311.5" text-anchor="middle" font-size="22.666666666666664" fill="#1d4ed8" font-weight="600"><tspan x="780" dy="0">API</tspan><tspan x="780" dy="32.8667">GET /teams</tspan></text>
 <rect x="265" y="287" width="270" height="86" rx="16" fill="#dbeafe" stroke="#3b82f6" stroke-width="3.5"/>
-<text x="400" y="337.933" text-anchor="middle" font-size="22.666666666666664" fill="#1d4ed8" font-weight="600"><tspan x="400" dy="0">API</tspan><tspan x="400" dy="32.8667">DELETE /notes/{id}</tspan></text>
+<text x="400" y="321.5" text-anchor="middle" font-size="22.666666666666664" fill="#1d4ed8" font-weight="600"><tspan x="400" dy="0">API</tspan><tspan x="400" dy="32.8667">DELETE /notes/{id}</tspan></text>
 <path d="M146.00 110.00 L162.35 110.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M272.65 110.00 L289.00 110.00" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#aR)"/>
 <text x="217.5" y="117.933" text-anchor="middle" font-size="22.666666666666664" fill="#0f172a" font-weight="600">ログイン</text>
