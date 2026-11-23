@@ -48,8 +48,8 @@ sections/<sec>/<lec>/
 └── apps/             API と画面を並べるモノレポ（ルートの package.json・npm workspaces は入れない）
     ├── api/          NestJS（npx @nestjs/cli@12 new api --package-manager npm --skip-git --skip-tests --type esm --no-observe --skip-skills。02-01 で apps/ の中に作る）
     │   ├── Dockerfile・.dockerignore             02-02 から
-    │   ├── scripts/setup-cognito.mjs             05-01 から（ルートで node apps/api/scripts/setup-cognito.mjs。ルートの .env と apps/ui/config.json に書く。08-03 からルートの lambda.zip を読む）
-    │   ├── scripts/team-member.mjs               06-04 から（podman compose exec api node scripts/team-member.mjs ...。コンテナの中で動かす）
+    │   ├── scripts/setup-cognito.js             05-01 から（ルートで node apps/api/scripts/setup-cognito.js。ルートの .env と apps/ui/config.json に書く。08-03 からルートの lambda.zip を読む）
+    │   ├── scripts/team-member.js               06-04 から（podman compose exec api node scripts/team-member.js ...。コンテナの中で動かす）
     │   ├── lambda/index.mjs                      08-03 から（ルートで zip -j lambda.zip apps/api/lambda/index.mjs）
     │   └── src/
     │       ├── database.ts                       04-01 から（07-01 で database/ に移し、DatabaseModule のプロバイダーにする）
@@ -67,11 +67,11 @@ sections/<sec>/<lec>/
 - ノートは SQLite（`node:sqlite` の `DatabaseSync`）の `notes` テーブル。項目は A と同じ（`id`・`title`・`body`・`createdAt`・`updatedAt`）に `ownerId`（認証を足すまでは `null`）。
   ファイルは `DB_PATH`（compose で `/data/notes.db`、ボリューム `db`）。入力チェックはしない
 - API はコンテナで `node dist/main.js`。コードを変えたら `podman compose up -d --build --wait`。画面（`apps/ui/`）は nginx がそのまま配るので作り直さなくてよい
-- `.env`（プロジェクトのルート）と `apps/ui/config.json` は Git に入れない（リポジトリのルートの `.gitignore`）。`.env` は `apps/api/` の外なのでイメージにも入らない。`node apps/api/scripts/setup-cognito.mjs`（ルートで）が
+- `.env`（プロジェクトのルート）と `apps/ui/config.json` は Git に入れない（リポジトリのルートの `.gitignore`）。`.env` は `apps/api/` の外なのでイメージにも入らない。`node apps/api/scripts/setup-cognito.js`（ルートで）が
   `.env`（`COGNITO_USER_POOL_ID`・`COGNITO_CLIENT_ID`）と `apps/ui/config.json`（`issuer`・`clientId`）を書く。画面は `apps/ui/lib/config.js` で `config.json` を読む。
   書いたあと `podman compose up -d --wait` で API を作り直す（`env_file` を読ませる）
 - ユーザーは画面でサインアップする（`SignUp` → `ConfirmSignUp`）。確認コードは Floci の SES の受信箱 `http://localhost:4566/_aws/ses` で読む
-- 06-03 から、`setup-cognito.mjs` がグループ `admin` と `admin@example.com`（`Passw0rd!`）を作る。06-04 から、チームの所属は `podman compose exec api node scripts/team-member.mjs add|remove <メール> <チーム>`（Cognito でメールから `sub` を引き、SQLite の `team_members` に書く）
+- 06-03 から、`setup-cognito.js` がグループ `admin` と `admin@example.com`（`Passw0rd!`）を作る。06-04 から、チームの所属は `podman compose exec api node scripts/team-member.js add|remove <メール> <チーム>`（Cognito でメールから `sub` を引き、SQLite の `team_members` に書く）
 - Floci は `FLOCI_BASE_URL=http://floci:4566` にして、トークンの `iss` を API のコンテナから届く `http://floci:4566/<プール ID>` にしている
 - トークンの検証は aws-jwt-verify の `JwtVerifier`（`CognitoJwtVerifier` は発行元が amazonaws.com に固定なので使えない）。
   `jwksUri` は `iss` の下の `/.well-known/jwks.json`、`token_use`・`client_id` は `customJwtCheck`。既定の JWKS の取得は https だけなので、
@@ -79,8 +79,8 @@ sections/<sec>/<lec>/
 - 作成・削除は curl（ログイン画面に出したアクセストークンを付ける）で呼び、結果は一覧の画面（`/notes.html`、トークン無し）を読み込み直して見る
 - 08-03 の Lambda: Floci は Lambda をコンテナで動かすので、floci に Podman のソケット（`${PODMAN_SOCKET}:/var/run/docker.sock`、場所は `podman info --format '{{.Host.RemoteSocket.Path}}'` を `.env` に書く）と
   `security_opt: label=disable` を渡し、`FLOCI_SERVICES_LAMBDA_DOCKER_NETWORK: notes`（compose の `networks.default.name`）と `FLOCI_SERVICES_LAMBDA_DOCKER_HOST_OVERRIDE: floci` を付ける。
-  関数（`lambda/index.mjs`、`nodejs22.x`）は `lambda.zip`（`zip -j` / `Compress-Archive`）を `setup-cognito.mjs` が `POST /2015-03-31/functions` で作り、`CreateUserPool` の `LambdaConfig.PreTokenGenerationConfig`（`V2_0`）に付ける。
-  Lambda は `http://api:3000/teams?userId=<sub>` で所属を聞き、`claimsAndScopeOverrideDetails.accessTokenGeneration.claimsToAddOrOverride.teams` に載せる。`setup-cognito.mjs` は `.env` の `PODMAN_SOCKET` の行を残して書き直す
+  関数（`lambda/index.mjs`、`nodejs22.x`）は `lambda.zip`（`zip -j` / `Compress-Archive`）を `setup-cognito.js` が `POST /2015-03-31/functions` で作り、`CreateUserPool` の `LambdaConfig.PreTokenGenerationConfig`（`V2_0`）に付ける。
+  Lambda は `http://api:3000/teams?userId=<sub>` で所属を聞き、`claimsAndScopeOverrideDetails.accessTokenGeneration.claimsToAddOrOverride.teams` に載せる。`setup-cognito.js` は `.env` の `PODMAN_SOCKET` の行を残して書き直す
 - **秘匿情報（ユーザープール ID・クライアント ID・AWS アカウント ID・キー）の実値は絶対にコミットしない**
 
 ## 本文の分量

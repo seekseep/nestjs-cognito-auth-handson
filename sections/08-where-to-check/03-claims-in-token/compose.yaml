@@ -10,7 +10,7 @@ services:
       DB_PATH: /data/notes.db
     volumes:
       - db:/data
-    # apps/api/scripts/setup-cognito.mjs が書いた、ユーザープール ID とクライアント ID
+    # apps/api/scripts/setup-cognito.js が書いた、ユーザープール ID とクライアント ID
     env_file:
       - path: .env
         required: false

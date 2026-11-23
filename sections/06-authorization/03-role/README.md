@@ -9,7 +9,7 @@ cd apps/api
 npm install
 cd ../..
 podman compose up -d --build --wait
-node apps/api/scripts/setup-cognito.mjs   # ユーザープール・admin グループ・admin@example.com を作り、.env と apps/ui/config.json に書く
+node apps/api/scripts/setup-cognito.js   # ユーザープール・admin グループ・admin@example.com を作り、.env と apps/ui/config.json に書く
 podman compose up -d --wait      # 画面は http://localhost:3000 、API は http://localhost:3001
 ```
 

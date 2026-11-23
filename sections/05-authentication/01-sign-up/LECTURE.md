@@ -27,7 +27,7 @@ title: サインアップ画面を作る
 
 Cognito の API を呼んで、ユーザープールとアプリケーションクライアントを作るスクリプトです。作った ID を、API が読む `.env` と、画面が読む `apps/ui/config.json` に書き出します。
 
-::diff{file="apps/api/scripts/setup-cognito.mjs"}
+::diff{file="apps/api/scripts/setup-cognito.js"}
 
 - `AutoVerifiedAttributes: ['email']` … サインアップしたら、メールで確認コードを送ります
 - `GenerateSecret: false` … ブラウザで動くコードは誰でも中身を見られるので、クライアントシークレットは持たせません
@@ -56,7 +56,7 @@ Cognito の API を呼んで、ユーザープールとアプリケーション�
 
 ```bash
 podman compose up -d --build --wait
-node apps/api/scripts/setup-cognito.mjs
+node apps/api/scripts/setup-cognito.js
 podman compose up -d --wait
 ```
 
@@ -95,7 +95,7 @@ Floci はデータをメモリに持つので、`podman compose down` やパソ�
 
 ### 画面に「config.json がありません」と出る
 
-`node apps/api/scripts/setup-cognito.mjs` をまだ実行していないか、Floci を起動し直してユーザープールが消えています。「動作確認する」の 3 つのコマンドをやり直し、読み込み直してください。
+`node apps/api/scripts/setup-cognito.js` をまだ実行していないか、Floci を起動し直してユーザープールが消えています。「動作確認する」の 3 つのコマンドをやり直し、読み込み直してください。
 
 ### `Failed to fetch` や `ResourceNotFoundException` と出る
 
