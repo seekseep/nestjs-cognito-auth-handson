@@ -7,8 +7,10 @@ API は Authorization ヘッダーのアクセストークンを、Floci が公�
 
 import os
 import sys
+from pathlib import Path
 
-sys.path.insert(0, os.path.expanduser("~/.claude/skills/genfig"))
+sys.path.insert(0, str(next(p / ".claude/skills/genfig" for p in Path(__file__).resolve().parents
+                            if (p / ".claude/skills/genfig").is_dir())))
 from genfig import Canvas  # noqa: E402
 
 c = Canvas(960, 400)

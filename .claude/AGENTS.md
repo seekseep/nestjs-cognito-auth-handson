@@ -111,6 +111,13 @@ sections/<sec>/<lec>/
   - パネルの中に見出し（`##`・`###`）は書かない（目次に残って、隠れた所を指してしまう）
 - 「次へ」の見出しやリンクは書かない（Starlight の前へ／次へと重複するため）
 
+## 図（genfig）
+
+- 図は genfig スキルで作る。genfig は `seekseep/genfig-skill` を **サブモジュール** として `.claude/skills/genfig` に入れている。clone は `git clone --recurse-submodules`、clone 済みなら `git submodule update --init` で取ってくる
+- 各節の `images/NN-xxx.py` は、ファイルの場所から上へたどって `.claude/skills/genfig` を読み込む。`images/` の中で `python3 NN-xxx.py` を実行すると、同じ名前の `.svg` を書き出す
+- genfig を直すときは genfig-skill のリポジトリに PR を出し、マージしてからサブモジュールを更新して図を描き直す
+- SVG は `xmllint --noout` を通し、描き出して目で確かめる
+
 ## サイト（site/）の開発
 
 パッケージマネージャは **pnpm**（`site/package.json` の `packageManager` で固定）。
