@@ -9,7 +9,7 @@ title: トークンに持たせる
 
 所属をアクセストークンに持たせます。ログインのとき、Cognito が **Pre Token Generation** の Lambda を呼び、Lambda が API に所属を聞いて、アクセストークンの `teams` クレームに載せます。API は消すときに `team_members` を引かず、トークンの `teams` だけを見ます。
 
-![シーケンス図。ログインのとき：bob が Cognito（Floci）にログインする。Cognito はトークンを作る前に Lambda（pre-token）を呼ぶ。Lambda は API の GET /teams に sub を渡して所属を聞き、["team-a"] を受け取る。Lambda は teams クレームを足して Cognito に返し、Cognito は bob にアクセストークンを返す。bob のアクセストークンには teams: ["team-a"] が入っている。ノートを消すとき：bob はアクセストークンを付けて API に DELETE を送る。API はトークンの teams を見て、204 No Content を返す](./images/01-sequence.svg)
+![シーケンス図。ログインのとき：bob が Cognito（Floci）にログインする。Cognito はトークンを作る前に Lambda（pre-token）を呼ぶ。Lambda は API の GET /teams に sub を渡して所属を聞き、team-a を受け取る。Lambda は teams クレームを足して Cognito に返し、Cognito は bob にアクセストークンを返す。bob のアクセストークンには teams に team-a が入っている。ノートを消すとき：bob はアクセストークンを付けて API に DELETE を送る。API はトークンの teams を見て、204 No Content を返す](./images/01-sequence.svg)
 
 ## Floci で Lambda を動かせるようにする
 
