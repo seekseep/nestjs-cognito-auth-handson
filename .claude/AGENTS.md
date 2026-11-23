@@ -60,7 +60,8 @@ sections/<sec>/<lec>/
 
 - 言語は **TypeScript**。NestJS 12（ESM。import の末尾は `.js`）。パッケージマネージャはレクチャー側が **npm**、サイトが pnpm
 - コマンドは、Podman・スクリプト・`zip`・`.env` への書き足しはルート、npm と Nest CLI は `apps/api/` で実行する（本文では `cd apps/api` → … → `cd ../..` の形で書く）
-- `apps/api/` は `nest new` が作ったものを使う。テストの仕組み（Vitest の設定 2 つ・`vite`・`vitest`・`@vitest/coverage-v8`・`supertest`・`@types/supertest`・`@nestjs/testing`・`test` の 5 つのスクリプト・`tsconfig.json` の `vitest/globals`・`format` と `lint` の `test/`）だけは 02-01 で消す（テストは C で扱う。A と同じ）。ほか（`AGENTS.md`・`README.md`・oxlint・Prettier）はそのまま。`@nestjs/testing` が無いので、`nest g` は spec を作らない（`--no-spec` は要らない）
+- `apps/api/` は、`nest new --package-manager npm --skip-git --skip-tests --type esm --no-observe --skip-skills` が作ったものを何も消さずに使う
+  （`AGENTS.md`・`README.md`・oxlint・Prettier・Vitest の設定とパッケージ・`scripts` もそのまま。A と同じ）。`@nestjs/testing` があるので、`nest g controller`・`nest g service` には `--no-spec` を付ける
 - ポート: web（nginx、`apps/ui/` を配る）は `127.0.0.1:3000:80`、api は `127.0.0.1:3001:3000`、Floci は `127.0.0.1:4566`。
   API は `enableCors({ origin: 'http://localhost:3000' })`、Floci は `FLOCI_SECURITY_EXTRA_CORS_ALLOWED_ORIGINS=http://localhost:3000`
 - ノートは SQLite（`node:sqlite` の `DatabaseSync`）の `notes` テーブル。項目は A と同じ（`id`・`title`・`body`・`createdAt`・`updatedAt`）に `ownerId`（認証を足すまでは `null`）。

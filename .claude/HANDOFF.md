@@ -13,6 +13,7 @@
   API も Podman で動かす。メモの更新・単一取得・admin グループ・Guard・`@Public()` などは消した
 
 - 2026-11-23: プロジェクトを、ルートに `compose.yaml` と `apps/api/`・`apps/ui/` を並べるモノレポの形にした（C と同じ。B は E2E が無いので、ui は public に分けず、`apps/ui/` の直下を nginx が配る）。`.env` と `lambda.zip` はルート、`config.json` は `apps/ui/`
+- 2026-11-23: 02-01 の「テストの仕組みを消す」（#30）を取り消し、`apps/api/` を `nest new` が作ったままの形に戻した（A #57 と同じ）。`nest g controller`・`service` は `--no-spec`
 ## 環境
 
 - Node.js 26。レクチャーの `api/` は npm、`site/` は pnpm（`site/package.json` の packageManager）

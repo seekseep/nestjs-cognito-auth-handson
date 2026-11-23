@@ -13,7 +13,7 @@ SQL と処理（認可の判定も）を **サービス** に移し、コント�
 
 ```bash
 cd apps/api
-npx nest g service notes
+npx nest g service notes --no-spec
 cd ../..
 ```
 
